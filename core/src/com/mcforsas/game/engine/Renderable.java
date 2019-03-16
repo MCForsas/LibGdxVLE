@@ -7,21 +7,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by MCForsas on 3/16/2019
  * Renderable framework. Will be used for rendering. Has a sprite b default.
  */
-public class Renderable {
+public abstract class Renderable {
     protected Sprite sprite;
     protected float x = 0, y = 0, z = 0;
-    protected int depth = 0;
+    protected float depth = 0;
 
     protected Renderer renderer;
 
     public void render(SpriteBatch spriteBatch, float deltaTime){
-        if(sprite != null)
+        try {
             sprite.draw(spriteBatch);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     public void dispose(){
-        if(sprite != null)
+        try {
             sprite.getTexture().dispose();
+        }catch (NullPointerException e){
+
+        }
     }
 
     public Sprite getSprite() {
@@ -64,11 +70,11 @@ public class Renderable {
         this.renderer = renderer;
     }
 
-    public int getDepth() {
+    public float getDepth() {
         return depth;
     }
 
-    public void setDepth(int depth) {
+    public void setDepth(float depth) {
         try{
             renderer.refreshRenderOrder();
         }catch (NullPointerException e){

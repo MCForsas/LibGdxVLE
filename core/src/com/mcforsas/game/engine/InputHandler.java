@@ -11,6 +11,10 @@ import java.util.Vector;
 public class InputHandler implements InputProcessor {
     private Vector<InputListener> listeners = new Vector<InputListener>(); //Listeners
 
+    public void addInputListener(InputListener listener){
+        listeners.add(listener);
+    }
+
     public boolean isKeyDown(final int keycode){
         return Gdx.input.isKeyPressed(keycode);
     }

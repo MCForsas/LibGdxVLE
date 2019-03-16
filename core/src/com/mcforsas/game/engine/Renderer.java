@@ -12,19 +12,17 @@ import java.util.*;
 
 /*
  * Created by MCForsas on 3/16/2019
- * Replace this text by description, of what this code is for please,
- * you will know nothing about this code after you close the ide.
+ * Renders all the added entities
  */
 public class Renderer {
     private OrthographicCamera camera;
     private FitViewport viewport;
 
     private Vector<Renderable> renderables = new Vector<Renderable>();
-    private Vector<Renderable> renderOrder = new Vector<Renderable>();
 
     public Renderer(){
-        camera.update();
         camera = new OrthographicCamera();
+
         viewport = new FitViewport(Engine.WORLD_WIDTH, Engine.WORLD_HEIGHT,camera);
         viewport.apply();
         camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
@@ -34,12 +32,12 @@ public class Renderer {
         //Set background color
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        camera.update();
 
         sb.setProjectionMatrix(camera.combined);
         sb.begin();
 
-        for(Renderable r : renderOrder){
+        for(Renderable r : renderables){
             r.render(sb, deltaTime);
         }
 
@@ -47,26 +45,27 @@ public class Renderer {
     }
 
     public void dispose(){
-        for(Renderable r : renderOrder){
+        for(Renderable r : renderables){
             r.dispose();
         }
     }
 
     public void refreshRenderOrder(){
-        HashMap<Renderable, Integer> tempSort = new HashMap<Renderable, Integer>();
+        HashMap<Renderable, Float> tempList = new HashMap<Renderable, Float>();
+        ValueComparator bvc = new ValueComparator(tempList);
+        TreeMap<Renderable, Float> sortedMap = new TreeMap<Renderable, Float>(bvc);
 
         for(Renderable r : renderables){
-            tempSort.put(r, r.getDepth());
+            tempList.put(r, r.getDepth());
         }
 
-        Object[] sortedRenderables = tempSort.entrySet().toArray();
-        Arrays.sort(sortedRenderables, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                return ((Map.Entry<String, Integer>) o2).getValue()
-                        .compareTo(((Map.Entry<String, Integer>) o1).getValue());
-            }
-        });
-        renderOrder = new Vector(Arrays.asList(sortedRenderables));
+        sortedMap.putAll(tempList);
+
+        renderables.clear();
+
+        for (Map.Entry<Renderable, Float>entry : sortedMap.entrySet()) {
+            renderables.add(entry.getKey());
+        }
     }
 
     public void resize(int width, int height){
@@ -76,6 +75,7 @@ public class Renderer {
 
     public void addRenderable(Renderable renderable){
         renderables.add(renderable);
+        refreshRenderOrder();
     }
 
     public OrthographicCamera getCamera() {
@@ -88,5 +88,26 @@ public class Renderer {
 
     public void setCameraPosition(final float x, final float y){
         camera.position.set(x, y,0);
+    }
+
+    /*
+     * Used for comparing values
+     */
+    private class ValueComparator implements Comparator<Renderable> {
+        Map<Renderable, Float> base;
+
+        public ValueComparator(Map<Renderable, Float> base) {
+            this.base = base;
+        }
+
+        // Note: this comparator imposes orderings that are inconsistent with
+        // equals.
+        public int compare(Renderable a, Renderable b) {
+            if (base.get(a) >= base.get(b)) {
+                return -1;
+            } else {
+                return 1;
+            } // returning 0 would merge keys
+        }
     }
 }
