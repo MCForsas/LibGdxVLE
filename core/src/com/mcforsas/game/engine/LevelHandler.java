@@ -1,0 +1,72 @@
+package com.mcforsas.game.engine;
+
+import java.util.Vector;
+
+/*
+ * Created by MCForsas on 3/16/2019
+ * Handles levels. Runs them. Starts and stops.
+ */
+public class LevelHandler extends Renderable{
+    private Vector<Level> levels = new Vector<Level>();
+    private Level currentLevel;
+
+    public void startLevel(Level level){
+        level.start();
+    }
+
+    public void startLevel(){
+        try{
+            currentLevel.start();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void endLevel(Level level){
+        level.end();
+    }
+
+    public void endLevel(){
+        try{
+            currentLevel.end();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addLevel(Level level){
+        levels.add(level);
+    }
+
+    public void updateLevel(float deltaTime){
+        try{
+            currentLevel.update(deltaTime);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void startFirstLevel(){
+        Level level = levels.firstElement();
+
+        try {
+            setCurrentLevel(level);
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public Level getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(Level currentLevel) throws NullPointerException{
+        this.currentLevel = currentLevel;
+        if(currentLevel == null)
+            throw new NullPointerException();
+
+        if(!currentLevel.isStarted()){
+            startLevel();
+        }
+    }
+}
