@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.entities.EntitieExample;
+import com.mcforsas.game.levels.LevelExample;
 
 /*
  * Created by MCForsas on 3/16/2019
@@ -15,11 +16,11 @@ import com.mcforsas.game.entities.EntitieExample;
 public class Engine extends ApplicationAdapter {
 	public static final int WORLD_WIDTH = 10, WORLD_HEIGHT = 10;
 
-	private Renderer renderer;
-	private LevelHandler levelHandler;
-	private SpriteBatch spriteBatch;
-	private AssetHandler assetHandler;
-	private InputHandler inputHandler;
+	private static Renderer renderer;
+	private static LevelHandler levelHandler;
+	private static SpriteBatch spriteBatch;
+	private static AssetHandler assetHandler;
+	private static InputHandler inputHandler;
 
 	@Override
 	public void create () {
@@ -29,16 +30,13 @@ public class Engine extends ApplicationAdapter {
 		assetHandler = new AssetHandler();
 		inputHandler = new InputHandler();
 
+		Entitie.setRenderer(renderer);
+
 		loadAssets();
 		Gdx.input.setInputProcessor(inputHandler);
 
-		EntitieExample entitieExample1 = new EntitieExample(Engine.WORLD_WIDTH/2, 2);
-		EntitieExample entitieExample2 = new EntitieExample(Engine.WORLD_WIDTH/4, 3);
-
-		renderer.addRenderable(entitieExample1);
-		renderer.addRenderable(entitieExample2);
-
-
+		levelHandler.addLevel(new LevelExample());
+		levelHandler.startFirstLevel();
 	}
 
 	@Override
@@ -46,6 +44,7 @@ public class Engine extends ApplicationAdapter {
 		float deltaTime = Gdx.graphics.getDeltaTime();
 
 		update(deltaTime);
+
 		renderer.render(spriteBatch, deltaTime);
 	}
 
@@ -60,5 +59,25 @@ public class Engine extends ApplicationAdapter {
 
 	public void loadAssets(){
 		assetHandler.loadTexture("sprExample", "badlogic.jpg");
+	}
+
+	public static Renderer getRenderer() {
+		return renderer;
+	}
+
+	public static LevelHandler getLevelHandler() {
+		return levelHandler;
+	}
+
+	public static SpriteBatch getSpriteBatch() {
+		return spriteBatch;
+	}
+
+	public static AssetHandler getAssetHandler() {
+		return assetHandler;
+	}
+
+	public static InputHandler getInputHandler() {
+		return inputHandler;
 	}
 }

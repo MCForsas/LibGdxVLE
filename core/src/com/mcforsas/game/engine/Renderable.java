@@ -12,7 +12,11 @@ public abstract class Renderable {
     protected float x = 0, y = 0, z = 0;
     protected float depth = 0;
 
-    protected Renderer renderer;
+    protected static Renderer renderer;
+
+    public void start(){
+        renderer.addRenderable(this);
+    }
 
     public void render(SpriteBatch spriteBatch, float deltaTime){
         try {
@@ -62,12 +66,12 @@ public abstract class Renderable {
         this.z = z;
     }
 
-    public Renderer getRenderer() {
+    public static Renderer getRenderer() {
         return renderer;
     }
 
-    public void setRenderer(Renderer renderer) {
-        this.renderer = renderer;
+    public static void setRenderer(Renderer rendererObject) {
+        renderer = rendererObject;
     }
 
     public float getDepth() {

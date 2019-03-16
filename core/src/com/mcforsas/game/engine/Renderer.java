@@ -50,6 +50,9 @@ public class Renderer {
         }
     }
 
+    /*
+     * Sorts entities based on depth value
+     */
     public void refreshRenderOrder(){
         HashMap<Renderable, Float> tempList = new HashMap<Renderable, Float>();
         ValueComparator bvc = new ValueComparator(tempList);

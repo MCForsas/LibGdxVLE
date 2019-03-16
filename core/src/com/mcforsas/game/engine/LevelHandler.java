@@ -9,6 +9,7 @@ import java.util.Vector;
 public class LevelHandler extends Renderable{
     private Vector<Level> levels = new Vector<Level>();
     private Level currentLevel;
+    private boolean paused = false;
 
     public void startLevel(Level level){
         level.start();
@@ -40,7 +41,8 @@ public class LevelHandler extends Renderable{
 
     public void updateLevel(float deltaTime){
         try{
-            currentLevel.update(deltaTime);
+            if(!paused)
+                currentLevel.update(deltaTime);
         }catch (NullPointerException e){
             e.printStackTrace();
         }
@@ -68,5 +70,13 @@ public class LevelHandler extends Renderable{
         if(!currentLevel.isStarted()){
             startLevel();
         }
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 }

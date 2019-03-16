@@ -5,9 +5,9 @@ package com.mcforsas.game.engine;
  * Used as listener interface
  */
 public interface InputListener {
-    void touchDown(final int x, final int y);
-    void touchUp(final int x, final int y);
+    void touchDown(final float x, final float y);
+    void touchUp(final float x, final float y);
     void keyUp(final int keycode);
     void keyDown(final int keycode);
-    void mouseMoved(final int x, final int y);
+    void mouseMoved(final float x, final float y);
 }

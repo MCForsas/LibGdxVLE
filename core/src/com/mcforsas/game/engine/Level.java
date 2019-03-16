@@ -6,7 +6,7 @@ import java.util.Vector;
  * Created by MCForsas on 3/16/2019
  * Level object, has entities.
  */
-public abstract class Level {
+public abstract class Level extends Renderable{
 
     private Vector<Entitie> entities = new Vector<Entitie>();
     private boolean isStarted = false;
@@ -17,8 +17,10 @@ public abstract class Level {
         }
     }
 
+    /*
+     * Starts all the entities
+     */
     public void start(){
-
         for(Entitie e : entities){
             e.start();
         }
@@ -30,6 +32,10 @@ public abstract class Level {
         for(Entitie e : entities){
             e.end();
         }
+    }
+
+    public void addEntitie(Entitie entitie){
+        entities.add(entitie);
     }
 
     public boolean isStarted() {
