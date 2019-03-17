@@ -21,6 +21,7 @@ public class AssetHandler {
     private static HashMap<String, FileHandle> data;
     private static HashMap<String, BitmapFont> fonts;
 
+    //Directories of where files are stored
     private static final String TEXTURE_DIR = "textures/";
     private static final String SOUND_DIR = "audio/sounds/";
     private static final String MUSIC_DIR = "audio/music/";
@@ -38,16 +39,21 @@ public class AssetHandler {
         fonts = new HashMap<String, BitmapFont>();
     }
 
+
     public void loadTexture(String name, String path){
         Texture tx = new Texture(Gdx.files.internal(TEXTURE_DIR + path), ANTI_ALIASING);
 
         if(ANTI_ALIASING){
-            tx.setFilter(Texture.TextureFilter.MipMapLinearLinear, Texture.TextureFilter.MipMapLinearLinear);
+            tx.setFilter(
+                    Texture.TextureFilter.MipMapLinearLinear,
+                    Texture.TextureFilter.MipMapLinearLinear
+            );
         }
 
         textures.put(name, tx);
     }
 
+    /*-------Load files into memory ---------------*/
     public void loadSound(String name, String path){
         Sound snd = Gdx.audio.newSound(Gdx.files.internal(SOUND_DIR + path));
         sounds.put(name, snd);
@@ -68,6 +74,7 @@ public class AssetHandler {
         data.put(name, f);
     }
 
+    /*-------Retrieve files from memory----------------*/
     public static Texture getTexture(String name){
         return textures.get(name);
     }

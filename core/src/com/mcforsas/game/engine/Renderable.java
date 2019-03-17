@@ -10,9 +10,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public abstract class Renderable {
     protected Sprite sprite;
     protected float x = 0, y = 0, z = 0;
+
     protected float depth = 0;
 
     protected static Renderer renderer;
+
+    public boolean WARN_NO_SPRITE = false; //Weather to print stack trace if no sprite is set
 
     public void start(){
         renderer.addRenderable(this);
@@ -22,7 +25,8 @@ public abstract class Renderable {
         try {
             sprite.draw(spriteBatch);
         }catch (NullPointerException e){
-            e.printStackTrace();
+            if(WARN_NO_SPRITE)
+                e.printStackTrace();
         }
     }
 
@@ -30,7 +34,8 @@ public abstract class Renderable {
         try {
             sprite.getTexture().dispose();
         }catch (NullPointerException e){
-
+            if(WARN_NO_SPRITE)
+                e.printStackTrace();
         }
     }
 

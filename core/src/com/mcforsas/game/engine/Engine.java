@@ -2,10 +2,7 @@ package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mcforsas.game.entities.EntitieExample;
 import com.mcforsas.game.levels.LevelExample;
 
 /*
@@ -14,8 +11,10 @@ import com.mcforsas.game.levels.LevelExample;
  */
 
 public class Engine extends ApplicationAdapter {
+	//Constants
 	public static final int WORLD_WIDTH = 10, WORLD_HEIGHT = 10;
 
+	//Main handlers
 	private static Renderer renderer;
 	private static LevelHandler levelHandler;
 	private static SpriteBatch spriteBatch;
@@ -35,8 +34,7 @@ public class Engine extends ApplicationAdapter {
 		loadAssets();
 		Gdx.input.setInputProcessor(inputHandler);
 
-		levelHandler.addLevel(new LevelExample());
-		levelHandler.startFirstLevel();
+		startGame();
 	}
 
 	@Override
@@ -55,6 +53,14 @@ public class Engine extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		renderer.dispose();
+	}
+
+	/*
+	 * After all the assets are loaded and main object created, start the game
+	 */
+	void startGame(){
+		levelHandler.addLevel(new LevelExample());
+		levelHandler.startFirstLevel();
 	}
 
 	public void loadAssets(){

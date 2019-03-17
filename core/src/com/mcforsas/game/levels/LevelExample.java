@@ -19,6 +19,9 @@ public class LevelExample extends Level {
         addEntitie(entitieExample1);
         addEntitie(entitieExample2);
 
+        setWidth(10);
+        setHeigth(10);
+
         super.start();
     }
 }

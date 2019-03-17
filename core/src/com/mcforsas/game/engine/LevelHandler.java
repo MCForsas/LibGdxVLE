@@ -17,7 +17,15 @@ public class LevelHandler extends Renderable{
 
     public void startLevel(){
         try{
+            if(
+                    currentLevel.getHeigth() != Engine.getRenderer().getViewport().getWorldHeight() ||
+                    currentLevel.getWidth() != Engine.getRenderer().getViewport().getWorldWidth()
+            ){
+                Engine.getRenderer().resizeViewport(currentLevel.getWidth(), currentLevel.getHeigth());
+            }
+
             currentLevel.start();
+
         }catch (NullPointerException e){
             e.printStackTrace();
         }
@@ -66,7 +74,6 @@ public class LevelHandler extends Renderable{
         this.currentLevel = currentLevel;
         if(currentLevel == null)
             throw new NullPointerException();
-
         if(!currentLevel.isStarted()){
             startLevel();
         }

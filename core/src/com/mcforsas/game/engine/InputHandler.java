@@ -13,14 +13,6 @@ import java.util.Vector;
 public class InputHandler implements InputProcessor {
     private Vector<InputListener> listeners = new Vector<InputListener>(); //Listeners
 
-    public void addInputListener(InputListener listener){
-        listeners.add(listener);
-    }
-
-    public boolean isKeyDown(final int keycode){
-        return Gdx.input.isKeyPressed(keycode);
-    }
-
     @Override
     public boolean keyDown(int keycode) {
         for(InputListener listener : listeners){
@@ -82,5 +74,13 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void addInputListener(InputListener listener){
+        listeners.add(listener);
+    }
+
+    public boolean isKeyDown(final int keycode){
+        return Gdx.input.isKeyPressed(keycode);
     }
 }

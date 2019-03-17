@@ -1,12 +1,12 @@
 package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.OrderedMap;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.*;
 
@@ -15,32 +15,40 @@ import java.util.*;
  * Renders all the added entities
  */
 public class Renderer {
-    private OrthographicCamera camera;
-    private FitViewport viewport;
+    private Vector<Camera> cameras = new Vector<Camera>();
+    private Camera currentCamera;
 
-    private Vector<Renderable> renderables = new Vector<Renderable>();
+    private Vector<Viewport> viewports = new Vector<Viewport>();
+    private Viewport currentViewport;
+
+    private Vector<Renderable> renderables = new Vector<Renderable>(); //All rendered items
 
     public Renderer(){
-        camera = new OrthographicCamera();
 
-        viewport = new FitViewport(Engine.WORLD_WIDTH, Engine.WORLD_HEIGHT,camera);
-        viewport.apply();
-        camera.position.set(camera.viewportWidth/2,camera.viewportHeight/2,0);
+    }
+
+    public void setupDefault(){
+        currentCamera = new OrthographicCamera();
+        addCemera(currentCamera);
+
+        currentViewport = new FitViewport(Engine.WORLD_WIDTH, Engine.WORLD_HEIGHT,currentCamera);
+        currentViewport.apply();
+
+        currentCamera.position.set(currentCamera.viewportWidth/2,currentCamera.viewportHeight/2,0);
     }
 
     public void render(SpriteBatch sb, float deltaTime){
-        //Set background color
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1); //Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        camera.update();
 
-        sb.setProjectionMatrix(camera.combined);
+        currentCamera.update();
+
+        sb.setProjectionMatrix(currentCamera.combined);
+
         sb.begin();
-
         for(Renderable r : renderables){
             r.render(sb, deltaTime);
         }
-
         sb.end();
     }
 
@@ -72,8 +80,8 @@ public class Renderer {
     }
 
     public void resize(int width, int height){
-        viewport.update(width, height);
-        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0);
+        currentViewport.update(width, height);
+        currentCamera.position.set(currentCamera.viewportWidth / 2, currentCamera.viewportHeight / 2, 0);
     }
 
     public void addRenderable(Renderable renderable){
@@ -81,20 +89,40 @@ public class Renderer {
         refreshRenderOrder();
     }
 
-    public OrthographicCamera getCamera() {
-        return camera;
-    }
-
-    public void setCamera(OrthographicCamera camera) {
-        this.camera = camera;
-    }
-
     public void setCameraPosition(final float x, final float y){
-        camera.position.set(x, y,0);
+        currentCamera.position.set(x, y,0);
+    }
+
+    public Camera getCamera() {
+        return currentCamera;
+    }
+
+    public void setCamera(Camera currentCamera) {
+        this.currentCamera = currentCamera;
+    }
+
+    public void addCemera(Camera camera){
+        cameras.add(camera);
+    }
+
+    public Viewport getViewport() {
+        return currentViewport;
+    }
+
+    public void setViewport(Viewport viewport) {
+        this.currentViewport = viewport;
+    }
+
+    public void resizeViewport(int width, int heigth){
+        this.currentViewport.setWorldSize(width, heigth);
+    }
+
+    public void addViewport(Viewport viewport){
+        viewports.add(viewport);
     }
 
     /*
-     * Used for comparing values
+     * Used for Sorting renderables array
      */
     private class ValueComparator implements Comparator<Renderable> {
         Map<Renderable, Float> base;

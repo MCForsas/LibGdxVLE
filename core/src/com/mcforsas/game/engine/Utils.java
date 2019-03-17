@@ -11,7 +11,9 @@ import java.util.Vector;
  * Created by MCForsas on 3/16/2019
  * Packs a bunch of usefull functions.
  */
-public class Utils {
+public final class Utils {
+
+    private Utils(){  }
 
     public static final String WARNING_TAG = "warning";
 
