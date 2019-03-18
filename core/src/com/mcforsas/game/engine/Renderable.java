@@ -5,15 +5,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /*
  * Created by MCForsas on 3/16/2019
- * Renderable framework. Will be used for rendering. Has a sprite b default.
+ * Renderable framework. Will be used for rendering. Has a sprite by default.
  */
 public abstract class Renderable {
     protected Sprite sprite;
-    protected float x = 0, y = 0, z = 0;
-
-    protected float depth = 0;
-
     protected static Renderer renderer;
+
+    protected float x = 0, y = 0, z = 0;
+    protected float depth = 0;
 
     public boolean WARN_NO_SPRITE = false; //Weather to print stack trace if no sprite is set
 
@@ -39,6 +38,8 @@ public abstract class Renderable {
         }
     }
 
+
+    //region <Getters and setters>
     public Sprite getSprite() {
         return sprite;
     }
@@ -84,11 +85,12 @@ public abstract class Renderable {
     }
 
     public void setDepth(float depth) {
-        try{
+        try {
             renderer.refreshRenderOrder();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         this.depth = depth;
     }
+    //endregion
 }

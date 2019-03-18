@@ -7,57 +7,74 @@ import java.util.Vector;
  * Handles levels. Runs them. Starts and stops.
  */
 public class LevelHandler extends Renderable{
+    private static final boolean FIT_VIEWPORT_ON_START = false;
     private Vector<Level> levels = new Vector<Level>();
     private Level currentLevel;
     private boolean paused = false;
 
-    public void startLevel(Level level){
-        level.start();
+    //region <Level methods>
+    public void startLevel() {
+        startLevel(currentLevel);
     }
 
-    public void startLevel(){
-        try{
-            if(
-                    currentLevel.getHeigth() != Engine.getRenderer().getViewport().getWorldHeight() ||
-                    currentLevel.getWidth() != Engine.getRenderer().getViewport().getWorldWidth()
-            ){
-                Engine.getRenderer().resizeViewport(
-                        Engine.getRenderer().getViewport(),
-                        currentLevel.getWidth(),
-                        currentLevel.getHeigth()
-                );
+    public void startLevel(Level level) {
+        try {
+            if(FIT_VIEWPORT_ON_START){
+                fitViewport();
             }
-
-            currentLevel.start();
+            level.start();
             Engine.getRenderer().addRenderable(currentLevel);
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    public void endLevel(Level level){
-        level.end();
-    }
-
-    public void endLevel(){
-        try{
-            currentLevel.end();
-        }catch (NullPointerException e){
+    public void endLevel(Level level) {
+        try {
+            level.end();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
+
+    public void endLevel() {
+        endLevel(currentLevel);
+    }
+
+    public void update(Level level, float deltaTime) {
+        try {
+            if (!paused)
+                level.update(deltaTime);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(float deltaTime) {
+        update(currentLevel, deltaTime);
+    }
+
+    public void dispose() {
+        dispose(currentLevel);
+    }
+
+    public void dispose(Level level) {
+        try {
+            level.dispose();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+    }
+    //endregion
 
     public void addLevel(Level level){
         levels.add(level);
     }
 
-    public void updateLevel(float deltaTime){
-        try{
-            if(!paused)
-                currentLevel.update(deltaTime);
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+    public void removeLevel(Level level) {
+        levels.remove(level);
+        Engine.getRenderer().removeRenderable(level);
     }
 
     public void startFirstLevel(){
@@ -70,15 +87,33 @@ public class LevelHandler extends Renderable{
         }
     }
 
+    public void fitViewport(Level level) {
+        if(
+                level.getHeigth() != Engine.getRenderer().getViewport().getWorldHeight() ||
+                        level.getWidth() != Engine.getRenderer().getViewport().getWorldWidth()
+        ){
+            Engine.getRenderer().resizeViewport(
+                    level.getWidth(),
+                    level.getHeigth()
+            );
+        }
+    }
+
+    public void fitViewport(){
+        fitViewport(currentLevel);
+    }
+
     public Level getCurrentLevel() {
         return currentLevel;
     }
 
-    public void setCurrentLevel(Level currentLevel) throws NullPointerException{
-        this.currentLevel = currentLevel;
-        if(currentLevel == null)
+    public void setCurrentLevel(Level level) throws NullPointerException{
+        this.currentLevel = level;
+        Engine.getRenderer().addRenderable(level);
+
+        if(level == null)
             throw new NullPointerException();
-        if(!currentLevel.isStarted()){
+        if(!level.isStarted()){
             startLevel();
         }
     }

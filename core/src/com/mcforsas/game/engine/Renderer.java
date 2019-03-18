@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -34,8 +35,8 @@ public class Renderer {
         currentCamera = new OrthographicCamera();
         addCemera(currentCamera);
 
-        currentViewport = new FitViewport(Engine.WORLD_WIDTH, Engine.WORLD_HEIGHT,currentCamera);
-        //currentViewport.apply();
+        currentViewport = new ExtendViewport(Engine.WORLD_WIDTH, Engine.WORLD_HEIGHT,currentCamera);
+        currentViewport.apply();
 
         setCameraPosition(currentViewport.getWorldWidth()/2, currentViewport.getWorldHeight()/2);
     }
@@ -44,6 +45,7 @@ public class Renderer {
         Gdx.gl.glClearColor(0, 0, 0, 1); //Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        boundCamera(currentCamera);
         currentCamera.update();
         currentViewport.apply();
 
@@ -85,7 +87,7 @@ public class Renderer {
 
     public void resize(int width, int height){
         currentViewport.update(width, height);
-        currentCamera.position.set(currentCamera.viewportWidth/2, currentCamera.viewportHeight / 2, 0);
+        //currentCamera.position.set(currentCamera.viewportWidth/2, currentCamera.viewportHeight / 2, 0);
     }
 
     public void addRenderable(Renderable renderable){
@@ -110,20 +112,11 @@ public class Renderer {
         cameras.add(camera);
     }
 
-    public void setCameraPosition(Camera camera, float x, float y){
-        if(isCameraBounded) {
-            x = Utils.clamp(
-                    camera.position.x,
-                    0 - camera.viewportWidth/2,
-                    getViewport().getWorldWidth()/2- camera.viewportWidth/2
-            );
+    public void removeCamera(Camera camera) {
+        cameras.remove(camera);
+    }
 
-            y = Utils.clamp(
-                    camera.position.x,
-                    0 - camera.viewportHeight/2,
-                    getViewport().getWorldHeight()/2- camera.viewportHeight/2
-            );
-        }
+    public void setCameraPosition(Camera camera, float x, float y){
         camera.position.set(x,y,CAMERA_Z);
     }
 
@@ -138,10 +131,41 @@ public class Renderer {
     public void translateCamera(Camera camera, float deltaX, float deltaY){
         camera.translate(deltaX,deltaY,CAMERA_Z);
     }
+
+    private void boundCamera(Camera camera){
+        float x = camera.position.x, y = camera.position.y;
+
+
+        int worldWidth = Engine.WORLD_WIDTH;
+        int worldHeight = Engine.WORLD_HEIGHT;
+
+        try {
+            Level level = Engine.getLevelHandler().getCurrentLevel();
+            worldWidth = level.getWidth();
+            worldHeight = level.getHeigth();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        if(isCameraBounded) {
+            x = Utils.clamp(
+                    camera.position.x,
+                    camera.viewportWidth/2,
+                    worldWidth - camera.viewportWidth/2
+            );
+
+            y = Utils.clamp(
+                    camera.position.y,
+                    camera.viewportHeight/2,
+                    worldHeight - camera.viewportHeight/2
+            );
+        }
+
+        camera.position.set(x,y, CAMERA_Z);
+    }
     //endregion
 
     //region <Viewport>
-
     public Viewport getViewport() {
         return currentViewport;
     }

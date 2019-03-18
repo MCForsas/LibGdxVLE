@@ -11,11 +11,11 @@ public abstract class Entitie extends Renderable{
         super.start();
     }
 
-    /*
-     * Update event used for game logic
-     */
     public void update(float deltaTime){
         sprite.setPosition(x,y);
+    }
+
+    public void dispose(){
     }
 
     public void end(){

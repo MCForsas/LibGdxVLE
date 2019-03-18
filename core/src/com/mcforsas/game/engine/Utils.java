@@ -31,12 +31,14 @@ public final class Utils {
         return val;
     }
 
+    //region <Random based methods>
+
     /*
      * Chooses random object from given ones
      * @param Object... objects
      * @return Object
      */
-    public static Object choose(Object... objects){
+    public static Object choose(Object... objects) {
         Random r = new Random();
         return objects[r.nextInt(objects.length)];
     }
@@ -45,7 +47,7 @@ public final class Utils {
      * Returns random int between 0 and max
      * @return int
      */
-    public static final int irandom(int max){
+    public static final int irandom(int max) {
         Random r = new Random();
         return r.nextInt(max);
     }
@@ -54,7 +56,7 @@ public final class Utils {
      * Returns random int between min and max
      * @return int
      */
-    public static int irandomRange(int min, int max){
+    public static int irandomRange(int min, int max) {
         Random r = new Random();
         return (r.nextInt((Math.abs(max - min)) + 1) + min);
 
@@ -65,7 +67,7 @@ public final class Utils {
      * @param int percentage number between 0 - 100
      * @return boolean chance true chance% of the time
      */
-    public static boolean chance(int percentage){
+    public static boolean chance(int percentage) {
         Random r = new Random();
         return percentage > r.nextInt(100);
     }
@@ -77,9 +79,10 @@ public final class Utils {
      * @param int percentage number between 0 - 100
      * @return Object chosen object
      */
-    public static Object pick(Object object1, Object object2, int percentage){
+    public static Object pick(Object object1, Object object2, int percentage) {
         return chance(percentage) ? object2 : object1;
     }
+    //endregion
 
     public static boolean flipBoolean(boolean bool){
         return !bool;

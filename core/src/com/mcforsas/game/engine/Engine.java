@@ -48,20 +48,12 @@ public class Engine extends ApplicationAdapter {
 	}
 
 	public void update(float deltaTime){
-		levelHandler.updateLevel(deltaTime);
+		levelHandler.update(deltaTime);
 	}
 	
 	@Override
 	public void dispose () {
 		renderer.dispose();
-	}
-
-	/*
-	 * After all the assets are loaded and main object created, start the game
-	 */
-	void startGame(){
-		levelHandler.addLevel(new LevelExample());
-		levelHandler.startFirstLevel();
 	}
 
 	@Override
@@ -82,10 +74,19 @@ public class Engine extends ApplicationAdapter {
 		levelHandler.setPaused(false);
 	}
 
+	/*
+	 * After all the assets are loaded and main object created, start the game
+	 */
+	void startGame(){
+		levelHandler.addLevel(new LevelExample());
+		levelHandler.startFirstLevel();
+	}
+
 	public void loadAssets(){
 		assetHandler.loadTexture("sprExample", "badlogic.jpg");
 	}
 
+	//region <Getters>
 	public static Renderer getRenderer() {
 		return renderer;
 	}
@@ -105,4 +106,5 @@ public class Engine extends ApplicationAdapter {
 	public static InputHandler getInputHandler() {
 		return inputHandler;
 	}
+	//endregion
 }

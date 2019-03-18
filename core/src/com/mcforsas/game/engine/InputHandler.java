@@ -13,9 +13,11 @@ import java.util.Vector;
 public class InputHandler implements InputProcessor {
     private Vector<InputListener> listeners = new Vector<InputListener>(); //Listeners
 
+
+    //region <Call listeners and overrride methods>
     @Override
     public boolean keyDown(int keycode) {
-        for(InputListener listener : listeners){
+        for (InputListener listener : listeners) {
             listener.keyDown(keycode);
         }
         return true;
@@ -23,7 +25,7 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        for(InputListener listener : listeners){
+        for (InputListener listener : listeners) {
             listener.keyUp(keycode);
         }
         return true;
@@ -34,8 +36,8 @@ public class InputHandler implements InputProcessor {
         Vector3 worldCoordinates =
                 Engine.getRenderer().
                         getCamera().
-                        unproject(new Vector3(screenX,screenY,0));
-        for(InputListener listener : listeners){
+                        unproject(new Vector3(screenX, screenY, 0));
+        for (InputListener listener : listeners) {
             listener.touchDown(worldCoordinates.x, worldCoordinates.y);
         }
         return false;
@@ -46,8 +48,8 @@ public class InputHandler implements InputProcessor {
         Vector3 worldCoordinates =
                 Engine.getRenderer().
                         getCamera().
-                        unproject(new Vector3(screenX,screenY,0));
-        for(InputListener listener : listeners){
+                        unproject(new Vector3(screenX, screenY, 0));
+        for (InputListener listener : listeners) {
             listener.touchUp(worldCoordinates.x, worldCoordinates.y);
         }
         return false;
@@ -65,7 +67,7 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        for(InputListener listener : listeners){
+        for (InputListener listener : listeners) {
             listener.mouseMoved(screenX, screenY);
         }
         return false;
@@ -75,6 +77,7 @@ public class InputHandler implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+    //endregion
 
     public void addInputListener(InputListener listener){
         listeners.add(listener);

@@ -14,22 +14,19 @@ public abstract class Level extends Renderable{
     private boolean isStarted = false;
     private int width = Engine.WORLD_WIDTH, heigth = Engine.WORLD_HEIGHT;
 
+    public void start(){
+        for(Entitie e : entities){
+            e.start();
+        }
+        isStarted = true;
+    }
+
     public void update(float deltaTime){
         for(Entitie e : entities){
             e.update(deltaTime);
         }
     }
 
-    /*
-     * Starts all the entities
-     */
-    public void start(){
-        for(Entitie e : entities){
-            e.start();
-        }
-
-        isStarted = true;
-    }
 
     public void end(){
         for(Entitie e : entities){
@@ -43,6 +40,10 @@ public abstract class Level extends Renderable{
     public void addEntitie(Entitie entitie){
         entities.add(entitie);
         entitie.setLevel(this);
+    }
+
+    public void removeEntitie(Entitie entitie) {
+        entities.remove(entitie);
     }
 
     public boolean isStarted() {
