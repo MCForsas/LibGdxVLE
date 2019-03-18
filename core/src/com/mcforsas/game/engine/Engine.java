@@ -30,6 +30,7 @@ public class Engine extends ApplicationAdapter {
 		inputHandler = new InputHandler();
 
 		Entitie.setRenderer(renderer);
+		renderer.setupDefault();
 
 		loadAssets();
 		Gdx.input.setInputProcessor(inputHandler);
@@ -61,6 +62,24 @@ public class Engine extends ApplicationAdapter {
 	void startGame(){
 		levelHandler.addLevel(new LevelExample());
 		levelHandler.startFirstLevel();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		super.resize(width, height);
+		renderer.resize(width, height);
+	}
+
+	@Override
+	public void pause() {
+		super.pause();
+		levelHandler.setPaused(true);
+	}
+
+	@Override
+	public void resume(){
+		super.resume();
+		levelHandler.setPaused(false);
 	}
 
 	public void loadAssets(){

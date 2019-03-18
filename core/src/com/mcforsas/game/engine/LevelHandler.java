@@ -21,11 +21,15 @@ public class LevelHandler extends Renderable{
                     currentLevel.getHeigth() != Engine.getRenderer().getViewport().getWorldHeight() ||
                     currentLevel.getWidth() != Engine.getRenderer().getViewport().getWorldWidth()
             ){
-                Engine.getRenderer().resizeViewport(currentLevel.getWidth(), currentLevel.getHeigth());
+                Engine.getRenderer().resizeViewport(
+                        Engine.getRenderer().getViewport(),
+                        currentLevel.getWidth(),
+                        currentLevel.getHeigth()
+                );
             }
 
             currentLevel.start();
-
+            Engine.getRenderer().addRenderable(currentLevel);
         }catch (NullPointerException e){
             e.printStackTrace();
         }

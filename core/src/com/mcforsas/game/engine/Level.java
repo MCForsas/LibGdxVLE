@@ -1,5 +1,7 @@
 package com.mcforsas.game.engine;
 
+import com.badlogic.gdx.Input;
+
 import java.util.Vector;
 
 /*

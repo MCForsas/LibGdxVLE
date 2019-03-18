@@ -53,7 +53,7 @@ public class AssetHandler {
         textures.put(name, tx);
     }
 
-    /*-------Load files into memory ---------------*/
+
     public void loadSound(String name, String path){
         Sound snd = Gdx.audio.newSound(Gdx.files.internal(SOUND_DIR + path));
         sounds.put(name, snd);

@@ -23,6 +23,9 @@ public class Renderer {
 
     private Vector<Renderable> renderables = new Vector<Renderable>(); //All rendered items
 
+    public final float CAMERA_Z = 0;
+    private boolean isCameraBounded = true; //Weather camera is allowed to leave the level
+
     public Renderer(){
 
     }
@@ -32,9 +35,9 @@ public class Renderer {
         addCemera(currentCamera);
 
         currentViewport = new FitViewport(Engine.WORLD_WIDTH, Engine.WORLD_HEIGHT,currentCamera);
-        currentViewport.apply();
+        //currentViewport.apply();
 
-        currentCamera.position.set(currentCamera.viewportWidth/2,currentCamera.viewportHeight/2,0);
+        setCameraPosition(currentViewport.getWorldWidth()/2, currentViewport.getWorldHeight()/2);
     }
 
     public void render(SpriteBatch sb, float deltaTime){
@@ -42,6 +45,7 @@ public class Renderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         currentCamera.update();
+        currentViewport.apply();
 
         sb.setProjectionMatrix(currentCamera.combined);
 
@@ -81,7 +85,7 @@ public class Renderer {
 
     public void resize(int width, int height){
         currentViewport.update(width, height);
-        currentCamera.position.set(currentCamera.viewportWidth / 2, currentCamera.viewportHeight / 2, 0);
+        currentCamera.position.set(currentCamera.viewportWidth/2, currentCamera.viewportHeight / 2, 0);
     }
 
     public void addRenderable(Renderable renderable){
@@ -89,10 +93,11 @@ public class Renderer {
         refreshRenderOrder();
     }
 
-    public void setCameraPosition(final float x, final float y){
-        currentCamera.position.set(x, y,0);
+    public void removeRenderable(Renderable renderable){
+        renderables.remove(renderable);
     }
 
+    //region <Camera>
     public Camera getCamera() {
         return currentCamera;
     }
@@ -105,21 +110,75 @@ public class Renderer {
         cameras.add(camera);
     }
 
+    public void setCameraPosition(Camera camera, float x, float y){
+        if(isCameraBounded) {
+            x = Utils.clamp(
+                    camera.position.x,
+                    0 - camera.viewportWidth/2,
+                    getViewport().getWorldWidth()/2- camera.viewportWidth/2
+            );
+
+            y = Utils.clamp(
+                    camera.position.x,
+                    0 - camera.viewportHeight/2,
+                    getViewport().getWorldHeight()/2- camera.viewportHeight/2
+            );
+        }
+        camera.position.set(x,y,CAMERA_Z);
+    }
+
+    public void setCameraPosition(float x, float y){
+        setCameraPosition(currentCamera, x, y);
+    }
+
+    public void translateCamera(float deltaX, float deltaY){
+        translateCamera(currentCamera, deltaX, deltaY);
+    }
+
+    public void translateCamera(Camera camera, float deltaX, float deltaY){
+        camera.translate(deltaX,deltaY,CAMERA_Z);
+    }
+    //endregion
+
+    //region <Viewport>
+
     public Viewport getViewport() {
         return currentViewport;
     }
 
     public void setViewport(Viewport viewport) {
         this.currentViewport = viewport;
+        viewport.apply();
     }
 
     public void resizeViewport(int width, int heigth){
-        this.currentViewport.setWorldSize(width, heigth);
+        resizeViewport(currentViewport, width, heigth);
+    }
+
+    public void resizeViewport(Viewport viewport, int width, int heigth){
+        viewport.setWorldSize(width, heigth);
+        viewport.apply();
     }
 
     public void addViewport(Viewport viewport){
         viewports.add(viewport);
     }
+
+    public void removeViewport(Viewport viewport){
+        viewports.remove(viewport);
+    }
+
+    //endregion
+
+    //region <Getters and setters>
+    public boolean isCameraBounded() {
+        return isCameraBounded;
+    }
+
+    public void setCameraBounded(boolean cameraBounded) {
+        isCameraBounded = cameraBounded;
+    }
+    //endregion
 
     /*
      * Used for Sorting renderables array

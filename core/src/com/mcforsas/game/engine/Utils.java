@@ -1,15 +1,12 @@
 package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.Gdx;
-
-import java.util.Comparator;
-import java.util.Map;
 import java.util.Random;
-import java.util.Vector;
+
 
 /*
  * Created by MCForsas on 3/16/2019
- * Packs a bunch of usefull functions.
+ * Packs a bunch of useful functions.
  */
 public final class Utils {
 
