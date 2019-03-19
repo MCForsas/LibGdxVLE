@@ -12,7 +12,7 @@ import com.mcforsas.game.engine.*;
 public class EntitieExample extends Entitie implements InputListener {
 
     public EntitieExample(float x, float depth){
-        sprite = new Sprite(AssetHandler.getTexture("sprExample"));
+        sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
         this.x = x;
         y = Engine.WORLD_HEIGHT/2;
         sprite.setPosition(x,y);
@@ -32,6 +32,8 @@ public class EntitieExample extends Entitie implements InputListener {
     public void touchDown(float x, float y) {
         this.x = x;
         this.y = y;
+
+        Engine.getAssetHandler().getSound("sndExample").play();
     }
 
     @Override

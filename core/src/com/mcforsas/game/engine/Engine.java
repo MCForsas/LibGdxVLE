@@ -17,9 +17,10 @@ public class Engine extends ApplicationAdapter {
 	//Main handlers
 	private static Renderer renderer;
 	private static LevelHandler levelHandler;
-	private static SpriteBatch spriteBatch;
 	private static AssetHandler assetHandler;
 	private static InputHandler inputHandler;
+
+	private SpriteBatch spriteBatch;
 
 	@Override
 	public void create () {
@@ -83,7 +84,11 @@ public class Engine extends ApplicationAdapter {
 	}
 
 	public void loadAssets(){
-		assetHandler.loadTexture("sprExample", "badlogic.jpg");
+		assetHandler.loadTexture("sprBadlogic", "badlogic.jpg");
+		assetHandler.loadTexture("sprExample", "example.jpg");
+
+		assetHandler.loadMusic("musExample","example.ogg");
+		assetHandler.loadSound("sndExample","example.ogg");
 	}
 
 	//region <Getters>
@@ -93,10 +98,6 @@ public class Engine extends ApplicationAdapter {
 
 	public static LevelHandler getLevelHandler() {
 		return levelHandler;
-	}
-
-	public static SpriteBatch getSpriteBatch() {
-		return spriteBatch;
 	}
 
 	public static AssetHandler getAssetHandler() {

@@ -15,11 +15,11 @@ import com.mcforsas.game.entities.EntitieExample;
  */
 public class LevelExample extends Level {
     EntitieExample entitieExample1 = new EntitieExample(Engine.WORLD_WIDTH/2, 1);
-    EntitieExample entitieExample2 = new EntitieExample(Engine.WORLD_WIDTH/4, 2);
 
     public LevelExample(){
         setWidth(Engine.WORLD_WIDTH*2);
         setHeigth(Engine.WORLD_WIDTH*2);
+        setDepth(100);
     }
 
     @Override
@@ -47,17 +47,15 @@ public class LevelExample extends Level {
     @Override
     public void start() {
         addEntitie(entitieExample1);
-        addEntitie(entitieExample2);
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprExample"));
         sprite.setPosition(0,0);
-        sprite.setSize(getWidth(), getHeigth());
+        sprite.setSize(getHeigth(), getHeigth());
         super.start();
     }
 
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
-        Utils.warn("Was rendered");
     }
 }
