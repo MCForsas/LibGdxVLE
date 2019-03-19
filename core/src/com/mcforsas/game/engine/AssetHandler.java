@@ -1,11 +1,17 @@
 package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.assets.AssetLoaderParameters;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
+import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.HashMap;
 
@@ -13,7 +19,9 @@ import java.util.HashMap;
  * Created by MCForsas on 3/16/2019
  * Loads assets from files. Handles I/O
  */
-public class AssetHandler {
+public class AssetHandler{
+
+    AssetManager assetManager = new AssetManager();
 
     private static HashMap<String, Texture> textures;
     private static HashMap<String, Sound> sounds;
@@ -96,4 +104,22 @@ public class AssetHandler {
         return data.get(name);
     }
     //endregion
+
+    public void dispose(){
+        for(Texture texture : textures.values()){
+            texture.dispose();
+        }
+
+        for(Sound sound : sounds.values()){
+            sound.dispose();
+        }
+
+        for(Music music : music.values()){
+            music.dispose();
+        }
+
+        for(BitmapFont bitmapFont : fonts.values()){
+            bitmapFont.dispose();
+        }
+    }
 }

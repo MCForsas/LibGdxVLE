@@ -29,15 +29,6 @@ public abstract class Renderable {
         }
     }
 
-    public void dispose(){
-        try {
-            sprite.getTexture().dispose();
-        }catch (NullPointerException e){
-            if(WARN_NO_SPRITE)
-                e.printStackTrace();
-        }
-    }
-
 
     //region <Getters and setters>
     public Sprite getSprite() {

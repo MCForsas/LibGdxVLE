@@ -33,7 +33,7 @@ public class EntitieExample extends Entitie implements InputListener {
         this.x = x;
         this.y = y;
 
-        Engine.getAssetHandler().getSound("sndExample").play();
+        //Engine.getAssetHandler().getSound("sndExample").play();
     }
 
     @Override

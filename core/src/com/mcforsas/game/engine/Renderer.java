@@ -58,12 +58,6 @@ public class Renderer {
         sb.end();
     }
 
-    public void dispose(){
-        for(Renderable r : renderables){
-            r.dispose();
-        }
-    }
-
     /*
      * Sorts entities based on depth value
      */

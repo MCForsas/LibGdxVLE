@@ -27,6 +27,12 @@ public abstract class Level extends Renderable{
         }
     }
 
+    public void dispose() {
+        for (Entitie e : entities) {
+            e.dispose();
+        }
+    }
+    
 
     public void end(){
         for(Entitie e : entities){

@@ -54,7 +54,7 @@ public class Engine extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		renderer.dispose();
+		assetHandler.dispose();
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class Engine extends ApplicationAdapter {
 		assetHandler.loadTexture("sprExample", "example.jpg");
 
 		assetHandler.loadMusic("musExample","example.ogg");
-		assetHandler.loadSound("sndExample","example.ogg");
+		//assetHandler.loadSound("sndExample","test.wav");
 	}
 
 	//region <Getters>
