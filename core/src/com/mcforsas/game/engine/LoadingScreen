@@ -1,0 +1,14 @@
+package com.mcforsas.game.engine;
+
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public class LoadingScreen extends Renderable {
+    BitmapFont font  = new BitmapFont();
+
+    @Override
+    public void render(SpriteBatch spriteBatch, float deltaTime) {
+        super.render(spriteBatch, deltaTime);
+        font.draw(spriteBatch,"Hello",Engine.WORLD_WIDTH/2,Engine.WORLD_HEIGHT/2);
+    }
+}

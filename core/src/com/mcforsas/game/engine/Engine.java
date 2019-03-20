@@ -2,9 +2,6 @@ package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.levels.LevelExample;
 
@@ -25,6 +22,7 @@ public class Engine extends ApplicationAdapter {
 
 	private Thread loaderThread;
 	private SpriteBatch spriteBatch;
+	private LoadingScreen loadingScreen;
 
 	@Override
 	public void create () {
@@ -38,6 +36,8 @@ public class Engine extends ApplicationAdapter {
 		Entitie.setRenderer(renderer);
 		renderer.setupDefault();
 
+		loadingScreen = new LoadingScreen();
+		renderer.addRenderable(loadingScreen);
 		loaderThread = new Thread(new Loader());
 
 		Gdx.app.postRunnable(loaderThread);
@@ -86,8 +86,7 @@ public class Engine extends ApplicationAdapter {
 	 * After all the assets are loaded and main object created, start the game
 	 */
 	void startGame(){
-		showLoadingScreen();
-
+		renderer.removeRenderable(loadingScreen);
 		levelHandler.addLevel(new LevelExample());
 		levelHandler.startFirstLevel();
 	}
@@ -99,12 +98,6 @@ public class Engine extends ApplicationAdapter {
 		assetHandler.loadMusic("musExample","example.ogg");
 		assetHandler.loadSound("sndExample","test.wav");
 		startGame();
-	}
-
-	public void showLoadingScreen(){
-		while (loaderThread.isAlive()){
-			Utils.warn("Resources are loaded...");
-		}
 	}
 
 	//region <Getters>

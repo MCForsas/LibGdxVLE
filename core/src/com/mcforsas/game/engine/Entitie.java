@@ -16,6 +16,7 @@ public abstract class Entitie extends Renderable{
     }
 
     public void dispose(){
+
     }
 
     public void end(){
