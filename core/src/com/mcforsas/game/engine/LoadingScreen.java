@@ -3,6 +3,11 @@ package com.mcforsas.game.engine;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/*
+ * Created by MCForsas on 3/16/2019
+ * Shows loading screnn
+ */
+
 public class LoadingScreen extends Renderable {
     BitmapFont font  = new BitmapFont();
 

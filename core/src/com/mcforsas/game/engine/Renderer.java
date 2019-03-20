@@ -43,7 +43,7 @@ public class Renderer {
     }
 
     public void render(SpriteBatch sb, float deltaTime){
-        Gdx.gl.glClearColor(0, 0, 0, 1); //Set background color
+        Gdx.gl.glClearColor(0, 1, 0, 1); //Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         boundCamera(currentCamera);
@@ -143,6 +143,15 @@ public class Renderer {
         }
 
         if(isCameraBounded) {
+            //If a wierd aspect ratio is got, just exit the method
+            if(x == worldWidth - camera.viewportWidth/2){
+                return;
+            }
+            if(y == worldHeight - camera.viewportHeight/2){
+                return;
+            }
+
+            //Continue as normal
             x = Utils.clamp(
                     camera.position.x,
                     camera.viewportWidth/2,
@@ -154,7 +163,6 @@ public class Renderer {
                     camera.viewportHeight/2,
                     worldHeight - camera.viewportHeight/2
             );
-
             Utils.warnf("X:%f, %f : %f", x, camera.position.x, worldWidth - camera.viewportWidth/2);
         }
 
