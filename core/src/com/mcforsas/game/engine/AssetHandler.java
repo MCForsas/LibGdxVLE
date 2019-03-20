@@ -1,18 +1,13 @@
 package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetDescriptor;
-import com.badlogic.gdx.assets.AssetLoaderParameters;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.AsynchronousAssetLoader;
-import com.badlogic.gdx.assets.loaders.SynchronousAssetLoader;
+
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.utils.Array;
-
 import java.util.HashMap;
 
 /*
@@ -21,7 +16,7 @@ import java.util.HashMap;
  */
 public class AssetHandler{
 
-    AssetManager assetManager = new AssetManager();
+    AssetManager assetManager;
 
     private static HashMap<String, Texture> textures;
     private static HashMap<String, Sound> sounds;
@@ -32,7 +27,7 @@ public class AssetHandler{
 
     //region <Directories>
     private static final String TEXTURE_DIR = "textures/";
-    private static final String SOUND_DIR = "audio/sounds/";
+    private static final String SOUND_DIR = "audio/sound/";
     private static final String MUSIC_DIR = "audio/music/";
     private static final String FONTS_DIR = "fonts/";
     private static final String FILES_DIR = "files/";
@@ -62,22 +57,22 @@ public class AssetHandler{
         textures.put(name, tx);
     }
 
-    public void loadSound(String name, String path) {
+    public synchronized void loadSound(String name, String path) {
         Sound snd = Gdx.audio.newSound(Gdx.files.internal(SOUND_DIR + path));
         sounds.put(name, snd);
     }
 
-    public void loadMusic(String name, String path) {
+    public synchronized void loadMusic(String name, String path) {
         Music mus = Gdx.audio.newMusic(Gdx.files.internal(MUSIC_DIR + path));
         music.put(name, mus);
     }
 
-    public void loadFont(String name, String path) {
+    public synchronized void loadFont(String name, String path) {
         BitmapFont font = new BitmapFont(Gdx.files.internal(FONTS_DIR + path));
         fonts.put(name, font);
     }
 
-    public void loadFile(String name, String path) {
+    public synchronized void loadFile(String name, String path) {
         FileHandle f = Gdx.files.internal(FILES_DIR + path);
         data.put(name, f);
     }

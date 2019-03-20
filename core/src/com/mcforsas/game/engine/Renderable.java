@@ -29,6 +29,23 @@ public abstract class Renderable {
         }
     }
 
+    /*
+     * Checks if coordinates are on sprite
+     */
+    public boolean isOnSprite(float x, float y){
+        try {
+            if(
+                    Utils.isInRange(x, sprite.getX(), sprite.getX() + sprite.getWidth()) &&
+                    Utils.isInRange(y, sprite.getY(), sprite.getY() + sprite.getHeight())
+            ){
+                return true;
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 
     //region <Getters and setters>
     public Sprite getSprite() {

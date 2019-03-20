@@ -2,6 +2,9 @@ package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.levels.LevelExample;
 
@@ -20,6 +23,7 @@ public class Engine extends ApplicationAdapter {
 	private static AssetHandler assetHandler;
 	private static InputHandler inputHandler;
 
+	private Thread loaderThread;
 	private SpriteBatch spriteBatch;
 
 	@Override
@@ -33,10 +37,11 @@ public class Engine extends ApplicationAdapter {
 		Entitie.setRenderer(renderer);
 		renderer.setupDefault();
 
-		loadAssets();
-		Gdx.input.setInputProcessor(inputHandler);
+		loaderThread = new Thread(new Loader());
 
-		startGame();
+		Gdx.app.postRunnable(loaderThread);
+
+		Gdx.input.setInputProcessor(inputHandler);
 	}
 
 	@Override
@@ -55,6 +60,7 @@ public class Engine extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		assetHandler.dispose();
+		levelHandler.dispose();
 	}
 
 	@Override
@@ -79,6 +85,8 @@ public class Engine extends ApplicationAdapter {
 	 * After all the assets are loaded and main object created, start the game
 	 */
 	void startGame(){
+		showLoadingScreen();
+
 		levelHandler.addLevel(new LevelExample());
 		levelHandler.startFirstLevel();
 	}
@@ -88,7 +96,14 @@ public class Engine extends ApplicationAdapter {
 		assetHandler.loadTexture("sprExample", "example.jpg");
 
 		assetHandler.loadMusic("musExample","example.ogg");
-		//assetHandler.loadSound("sndExample","test.wav");
+		assetHandler.loadSound("sndExample","test.wav");
+		startGame();
+	}
+
+	public void showLoadingScreen(){
+		while (loaderThread.isAlive()){
+			Utils.warn("Resources are loaded...");
+		}
 	}
 
 	//region <Getters>
@@ -108,4 +123,11 @@ public class Engine extends ApplicationAdapter {
 		return inputHandler;
 	}
 	//endregion
+
+	private class Loader implements Runnable {
+		@Override
+		public void run() {
+			loadAssets();
+		}
+	}
 }

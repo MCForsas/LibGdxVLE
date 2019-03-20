@@ -30,10 +30,9 @@ public class EntitieExample extends Entitie implements InputListener {
 
     @Override
     public void touchDown(float x, float y) {
-        this.x = x;
-        this.y = y;
-
-        //Engine.getAssetHandler().getSound("sndExample").play();
+        if(isOnSprite(x,y)) {
+            Engine.getAssetHandler().getSound("sndExample").play();
+        }
     }
 
     @Override
