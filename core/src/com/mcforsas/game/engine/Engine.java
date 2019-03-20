@@ -30,9 +30,10 @@ public class Engine extends ApplicationAdapter {
 	public void create () {
 		renderer = new Renderer();
 		levelHandler = new LevelHandler();
-		spriteBatch = new SpriteBatch();
 		assetHandler = new AssetHandler();
 		inputHandler = new InputHandler();
+
+		spriteBatch = new SpriteBatch();
 
 		Entitie.setRenderer(renderer);
 		renderer.setupDefault();

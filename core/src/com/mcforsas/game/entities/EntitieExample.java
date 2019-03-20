@@ -1,6 +1,7 @@
 package com.mcforsas.game.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.engine.*;
@@ -32,6 +33,10 @@ public class EntitieExample extends Entitie implements InputListener {
     public void touchDown(float x, float y) {
         if(isOnSprite(x,y)) {
             Engine.getAssetHandler().getSound("sndExample").play();
+        }
+        if(Engine.getInputHandler().isButtonDown(Input.Buttons.RIGHT)){
+            this.x = x;
+            this.y = y;
         }
     }
 

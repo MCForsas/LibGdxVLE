@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -153,6 +154,8 @@ public class Renderer {
                     camera.viewportHeight/2,
                     worldHeight - camera.viewportHeight/2
             );
+
+            Utils.warnf("X:%f, %f : %f", x, camera.position.x, worldWidth - camera.viewportWidth/2);
         }
 
         camera.position.set(x,y, CAMERA_Z);

@@ -143,7 +143,7 @@ public final class Utils {
      * @param String format format
      * @param Object[] o format
      */
-    public void warnf(String format, Object ... o){
+    public static void warnf(String format, Object ... o){
         Gdx.app.log(WARNING_TAG, String.format(format, o));
     }
 

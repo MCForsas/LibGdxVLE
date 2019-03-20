@@ -86,4 +86,6 @@ public class InputHandler implements InputProcessor {
     public boolean isKeyDown(final int keycode){
         return Gdx.input.isKeyPressed(keycode);
     }
+
+    public boolean isButtonDown(final int keycode){return Gdx.input.isButtonPressed(keycode);}
 }
