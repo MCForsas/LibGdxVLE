@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.levels.LevelExample;
+import com.mcforsas.game.levels.LevelExample2;
 
 /*
  * Created by MCForsas on 3/16/2019
@@ -88,6 +89,7 @@ public class Engine extends ApplicationAdapter {
 	void startGame(){
 		renderer.removeRenderable(loadingScreen);
 		levelHandler.addLevel(new LevelExample());
+		levelHandler.addLevel(new LevelExample2());
 		levelHandler.startFirstLevel();
 	}
 

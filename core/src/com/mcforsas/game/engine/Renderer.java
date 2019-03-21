@@ -5,11 +5,8 @@ import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import java.util.*;
 
 /*
@@ -43,7 +40,7 @@ public class Renderer {
     }
 
     public void render(SpriteBatch sb, float deltaTime){
-        Gdx.gl.glClearColor(0, 1, 0, 1); //Set background color
+        Gdx.gl.glClearColor(0,.06f,.02f,1); //Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         boundCamera(currentCamera);
@@ -82,7 +79,12 @@ public class Renderer {
 
     public void resize(int width, int height){
         currentViewport.update(width, height);
-        //currentCamera.position.set(currentCamera.viewportWidth/2, currentCamera.viewportHeight / 2, 0);
+//        Utils.warnf("world dimensions: x%f:y%f screen dimensions: x%d:y%d",
+//                currentViewport.getWorldWidth(),
+//                currentViewport.getWorldHeight(),
+//                width,
+//                height
+//                );
     }
 
     public void addRenderable(Renderable renderable){
@@ -130,7 +132,6 @@ public class Renderer {
     private void boundCamera(Camera camera){
         float x = camera.position.x, y = camera.position.y;
 
-
         int worldWidth = Engine.WORLD_WIDTH;
         int worldHeight = Engine.WORLD_HEIGHT;
 
@@ -143,15 +144,6 @@ public class Renderer {
         }
 
         if(isCameraBounded) {
-            //If a wierd aspect ratio is got, just exit the method
-            if(x == worldWidth - camera.viewportWidth/2){
-                return;
-            }
-            if(y == worldHeight - camera.viewportHeight/2){
-                return;
-            }
-
-            //Continue as normal
             x = Utils.clamp(
                     camera.position.x,
                     camera.viewportWidth/2,
@@ -163,8 +155,14 @@ public class Renderer {
                     camera.viewportHeight/2,
                     worldHeight - camera.viewportHeight/2
             );
-            Utils.warnf("X:%f, %f : %f", x, camera.position.x, worldWidth - camera.viewportWidth/2);
         }
+
+//        Utils.warnf(
+//                "Camera x: %f, camera.viewportWidth/2: %f, worldHeight - camera.viewportHeight/2: %f",
+//                camera.position.x,
+//                camera.viewportWidth/2,
+//                worldWidth - camera.viewportWidth/2
+//        );
 
         camera.position.set(x,y, CAMERA_Z);
     }

@@ -20,7 +20,7 @@ public abstract class Entitie extends Renderable{
     }
 
     public void end(){
-
+        Engine.getRenderer().removeRenderable(this);
     }
 
     public Level getLevel() {

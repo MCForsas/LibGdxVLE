@@ -35,8 +35,7 @@ public class EntitieExample extends Entitie implements InputListener {
             Engine.getAssetHandler().getSound("sndExample").play();
         }
         if(Engine.getInputHandler().isButtonDown(Input.Buttons.RIGHT)){
-            this.x = x;
-            this.y = y;
+            Engine.getLevelHandler().nextLevel();
         }
     }
 

@@ -32,6 +32,7 @@ public class LevelHandler extends Renderable{
     public void endLevel(Level level) {
         try {
             level.end();
+            Engine.getRenderer().removeRenderable(level);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -39,6 +40,15 @@ public class LevelHandler extends Renderable{
 
     public void endLevel() {
         endLevel(currentLevel);
+    }
+
+    public void nextLevel(){
+        int index = levels.indexOf(currentLevel);
+        while(levels.get(++index) == null){
+
+        }
+        endLevel();
+        setCurrentLevel(levels.get(index));
     }
 
     public void update(Level level, float deltaTime) {

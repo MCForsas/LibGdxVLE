@@ -42,6 +42,9 @@ public class LevelExample extends Level {
             Renderer r =  Engine.getRenderer();
             r.translateCamera(1,0);
         }
+        if(Engine.getInputHandler().isKeyDown(Input.Keys.N)){
+            Engine.getLevelHandler().nextLevel();
+        }
     }
 
     @Override

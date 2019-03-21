@@ -38,6 +38,7 @@ public abstract class Level extends Renderable{
         for(Entitie e : entities){
             e.end();
         }
+        entities.removeAllElements();
     }
 
     /*
