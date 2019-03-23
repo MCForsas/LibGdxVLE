@@ -9,7 +9,7 @@ import com.mcforsas.game.engine.Renderer;
 import com.mcforsas.game.gameObjects.GameObjectExample;
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * Example level to use
  */
 public class LevelExample extends Level {
@@ -25,10 +25,12 @@ public class LevelExample extends Level {
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprExample"));
         sprite.setPosition(0,0);
         sprite.setSize(getHeigth(), getHeigth());
-
         super.start();
     }
 
+    /*
+     * Move around with wasd and goto next level with n.
+     */
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);

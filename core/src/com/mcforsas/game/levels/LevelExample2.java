@@ -10,9 +10,6 @@ import com.mcforsas.game.engine.*;
  * Example level to use
  */
 public class LevelExample2 extends Level {
-    //GameObjectExample entitieExample1 = new GameObjectExample(Engine.WORLD_WIDTH/2, 1);
-
-
 
     @Override
     public void update(float deltaTime) {

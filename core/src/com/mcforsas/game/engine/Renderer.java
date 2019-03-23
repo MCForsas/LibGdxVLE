@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.*;
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * Renders all the added entities
  */
 public class Renderer {
@@ -25,6 +25,10 @@ public class Renderer {
     public final float CAMERA_Z = 0;
     private boolean isCameraBounded = true; //Weather camera is allowed to leave the level
 
+    /*
+     * Setup default renderer defaults: Ortographic camera, ExtendViewPort and position camera in
+     * the center
+     */
     public void setupDefault(){
         currentCamera = new OrthographicCamera();
         addCemera(currentCamera);
@@ -148,6 +152,10 @@ public class Renderer {
         }
 
         camera.position.set(x,y, CAMERA_Z);
+    }
+
+    public void centerCamera(Camera camera) {
+        camera.position.set(currentViewport.getWorldWidth()/2, currentViewport.getWorldHeight()/2, CAMERA_Z);
     }
     //endregion
 

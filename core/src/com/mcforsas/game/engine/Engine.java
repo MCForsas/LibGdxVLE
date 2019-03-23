@@ -10,7 +10,7 @@ import com.mcforsas.game.levels.LevelExample;
 import com.mcforsas.game.levels.LevelExample2;
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * Main game class holds all game constants, main game loop and handlers
  */
 
@@ -37,12 +37,10 @@ public class Engine extends ApplicationAdapter {
 		spriteBatch = new SpriteBatch();
 
 		renderer.setupDefault();
-
-		assetLoadingThread = new Thread(new QeueuLoader());
-
-		Gdx.app.postRunnable(assetLoadingThread);
-
 		Gdx.input.setInputProcessor(inputHandler);
+
+		assetLoadingThread = new Thread(new QeueuLoader()); //Loads assets on a separate thread
+		Gdx.app.postRunnable(assetLoadingThread);
 	}
 
 	@Override
@@ -52,6 +50,10 @@ public class Engine extends ApplicationAdapter {
 		renderer.render(spriteBatch, deltaTime);
 	}
 
+	/*
+	 * Updates game ie: game logic
+	 * @param float time that passed since last render update.
+	 */
 	public void update(float deltaTime){
 		levelHandler.update(deltaTime);
 	}
@@ -81,7 +83,7 @@ public class Engine extends ApplicationAdapter {
 	}
 
 	/*
-	 * After all the assets are loaded and main object created, start the game
+	 * After all the assets are loaded and main object created, start the game - setup default.
 	 */
 	public void startGame(){
 		levelHandler.addLevel(new LevelExample());
@@ -95,7 +97,7 @@ public class Engine extends ApplicationAdapter {
 		assetHandler.addToQueue(Music.class, "musExample","example.ogg");
 		assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
 
-		assetHandler.startLoadingQueu();
+		assetHandler.startLoadingQueue();
 
 		startGame();
 	}

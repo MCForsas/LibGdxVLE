@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.Vector;
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * Handles input. When key is pressed, calls input listeners
  */
 public class InputHandler implements InputProcessor {
@@ -37,9 +37,6 @@ public class InputHandler implements InputProcessor {
                 Engine.getRenderer().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
-//        for (int i = 0; i < listeners.size(); i++) {
-//            listeners.get(i).touchDown(worldCoordinates.x, worldCoordinates.y);
-//        }
         for(InputListener inputListener : listeners){
             inputListener.touchDown(worldCoordinates.x,worldCoordinates.y);
         }

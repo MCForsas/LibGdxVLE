@@ -3,8 +3,8 @@ package com.mcforsas.game.engine;
 import java.util.Vector;
 
 /*
- * Created by MCForsas on 3/16/2019
- * Handles levels. Runs them. Starts and stops.
+ * @author MCForsas on 3/16/2019
+ * Handles levels. Runs them. Starts and ends.
  */
 public class LevelHandler extends Renderable{
     private static final boolean FIT_VIEWPORT_ON_START = false;
@@ -28,43 +28,6 @@ public class LevelHandler extends Renderable{
         }
     }
 
-    public void endLevel(Level level) {
-        try {
-            level.end();
-            Engine.getRenderer().removeRenderable(level);
-            //levels.remove(level);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void endLevel() {
-        endLevel(currentLevel);
-    }
-
-    public void nextLevel(){
-        endLevel();
-        int index = levels.indexOf(currentLevel);
-        try {
-            while (levels.get(++index) == null) {
-            }
-        }catch (ArrayIndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-        setCurrentLevel(levels.get(index));
-    }
-
-    public void previousLevel(){
-        endLevel();
-        int index = levels.indexOf(currentLevel);
-        try {
-            while (levels.get(--index) == null) {
-            }
-        }catch (ArrayIndexOutOfBoundsException e){
-            e.printStackTrace();
-        }
-        setCurrentLevel(levels.get(index));
-    }
 
     public void update(Level level, float deltaTime) {
         try {
@@ -79,6 +42,18 @@ public class LevelHandler extends Renderable{
         update(currentLevel, deltaTime);
     }
 
+    public void endLevel(Level level) {
+        try {
+            level.end();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void endLevel() {
+        endLevel(currentLevel);
+    }
+
     public void dispose() {
         dispose(currentLevel);
     }
@@ -90,6 +65,36 @@ public class LevelHandler extends Renderable{
             e.printStackTrace();
         }
 
+    }
+
+    /*
+     * Change the level to the next one.
+     */
+    public void nextLevel(){
+        endLevel();
+        int index = levels.indexOf(currentLevel);
+        try {
+            while (levels.get(++index) == null) {
+            }
+        }catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+        setCurrentLevel(levels.get(index));
+    }
+
+    /*
+     * Change the level to the previous one.
+     */
+    public void previousLevel(){
+        endLevel();
+        int index = levels.indexOf(currentLevel);
+        try {
+            while (levels.get(--index) == null) {
+            }
+        }catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+        setCurrentLevel(levels.get(index));
     }
     //endregion
 

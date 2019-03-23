@@ -5,7 +5,7 @@ import java.util.Random;
 
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * Packs a bunch of useful functions.
  */
 public final class Utils {

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.engine.*;
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * example entitie
  */
 public class GameObjectExample extends GameObject implements InputListener {

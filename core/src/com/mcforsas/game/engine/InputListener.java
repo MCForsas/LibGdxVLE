@@ -1,7 +1,7 @@
 package com.mcforsas.game.engine;
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * Used as listener interface
  */
 public interface InputListener {

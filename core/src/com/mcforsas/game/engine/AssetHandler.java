@@ -1,6 +1,5 @@
 package com.mcforsas.game.engine;
 
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.audio.Music;
@@ -189,7 +188,10 @@ public class AssetHandler {
         }
     }
 
-    public void startLoadingQueu() {
+    /*
+     * Starts loading assets which are waiting for loading in queue.
+     */
+    public void startLoadingQueue() {
         for (String name : loadingQueue.keySet()) {
             try {
                 loadAsset(loadingQueue.get(name), name, loadingQueuePaths.get(name));
@@ -199,6 +201,7 @@ public class AssetHandler {
         }
     }
     //endregion
+
     /*
      * Disposes all the assets which are loaded in order to save memory
      */

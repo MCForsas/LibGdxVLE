@@ -1,19 +1,28 @@
 package com.mcforsas.game.engine;
 
 /*
- * Created by MCForsas on 3/22/2019
- * Replace this text by description, of what this code is for please,
- * you will know nothing about this code after you close the ide.
+ * @author MCForsas @since 3/22/2019
+ * Holds main entitie lifecycle methods
  */
 public abstract class Entitie {
+
+    /*
+     * All assets and values should be set here for this to function correctly.
+     */
     public void start(){
 
     }
 
+    /*
+     * Game logic
+     */
     public void update(){
 
     }
 
+    /*
+     * End all game logic. Remove all dependencies.
+     */
     public void end(){
         if(this instanceof InputListener){
             try {

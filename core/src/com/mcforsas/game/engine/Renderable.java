@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /*
- * Created by MCForsas on 3/16/2019
+ * @author MCForsas @since 3/16/2019
  * Renderable framework. Will be used for rendering. Has a sprite by default.
  */
 public abstract class Renderable extends Entitie {
@@ -36,6 +36,8 @@ public abstract class Renderable extends Entitie {
 
     /*
      * Checks if coordinates are on sprite
+     * @param x
+     * @param y
      */
     public boolean isOnSprite(float x, float y){
         try {
@@ -59,6 +61,20 @@ public abstract class Renderable extends Entitie {
     }
 
     //region <Getters and setters>
+
+    public float getDepth() {
+        return depth;
+    }
+
+    public void setDepth(float depth) {
+        try {
+            Engine.getRenderer().refreshRenderOrder(); //Refresh render order
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        this.depth = depth;
+    }
+
     public Sprite getSprite() {
         return sprite;
     }
@@ -89,19 +105,6 @@ public abstract class Renderable extends Entitie {
 
     public void setZ(float z) {
         this.z = z;
-    }
-
-    public float getDepth() {
-        return depth;
-    }
-
-    public void setDepth(float depth) {
-        try {
-            Engine.getRenderer().refreshRenderOrder();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        this.depth = depth;
     }
     //endregion
 }

@@ -6,8 +6,8 @@ import java.util.ConcurrentModificationException;
 import java.util.LinkedHashSet;
 
 /*
- * Created by MCForsas on 3/16/2019
- * Level object, holds gameObjects
+ * @author by MCForsas @since 3/16/2019
+ * Level object, holds gameObjects, can be used to draw backgrounds, etc.
  */
 public abstract class Level extends Renderable{
 
@@ -46,6 +46,8 @@ public abstract class Level extends Renderable{
         }catch (ConcurrentModificationException e){
             e.printStackTrace();
         }
+        super.end();
+
         isStarted = false;
     }
 
@@ -54,6 +56,9 @@ public abstract class Level extends Renderable{
         super.render(spriteBatch, deltaTime);
     }
 
+    public void centerCamera(){
+        Engine.getRenderer().setCameraPosition(width/2, heigth/2);
+    }
     /*
      * Adds gameObject and sets it's level to self
      */
