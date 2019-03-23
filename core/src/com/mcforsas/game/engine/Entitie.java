@@ -1,33 +1,26 @@
 package com.mcforsas.game.engine;
 
 /*
- * Created by MCForsas on 3/16/2019
- * Game object. Can be used with game logic and so on.
+ * Created by MCForsas on 3/22/2019
+ * Replace this text by description, of what this code is for please,
+ * you will know nothing about this code after you close the ide.
  */
-public abstract class Entitie extends Renderable{
-    protected Level level;
-
+public abstract class Entitie {
     public void start(){
-        super.start();
+
     }
 
-    public void update(float deltaTime){
-        sprite.setPosition(x,y);
-    }
-
-    public void dispose(){
+    public void update(){
 
     }
 
     public void end(){
-        Engine.getRenderer().removeRenderable(this);
-    }
-
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
+        if(this instanceof InputListener){
+            try {
+                Engine.getInputHandler().removeInputListener((InputListener) this);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
+        }
     }
 }

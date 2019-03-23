@@ -1,56 +1,69 @@
 package com.mcforsas.game.engine;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import java.util.Vector;
+import java.util.ConcurrentModificationException;
+import java.util.LinkedHashSet;
 
 /*
  * Created by MCForsas on 3/16/2019
- * Level object, holds entities
+ * Level object, holds gameObjects
  */
 public abstract class Level extends Renderable{
 
-    private Vector<Entitie> entities = new Vector<Entitie>();
+    private LinkedHashSet<GameObject> gameObjects = new LinkedHashSet<GameObject>();
     private boolean isStarted = false;
     private int width = Engine.WORLD_WIDTH, heigth = Engine.WORLD_HEIGHT;
 
+
     public void start(){
-        for(Entitie e : entities){
+        super.start();
+        for(GameObject e : gameObjects){
             e.start();
         }
         isStarted = true;
     }
 
     public void update(float deltaTime){
-        for(Entitie e : entities){
+        for(GameObject e : gameObjects){
             e.update(deltaTime);
         }
     }
 
     public void dispose() {
-        for (Entitie e : entities) {
+        for (GameObject e : gameObjects) {
             e.dispose();
         }
     }
     
 
     public void end(){
-        for(Entitie e : entities){
-            e.end();
+        try {
+            for(GameObject e : gameObjects){
+                e.end();
+                removeGameObject(e);
+            }
+        }catch (ConcurrentModificationException e){
+            e.printStackTrace();
         }
-        entities.removeAllElements();
+        isStarted = false;
+    }
+
+    @Override
+    public void render(SpriteBatch spriteBatch, float deltaTime) {
+        super.render(spriteBatch, deltaTime);
     }
 
     /*
-     * Adds entitie and sets it's level to self
+     * Adds gameObject and sets it's level to self
      */
-    public void addEntitie(Entitie entitie){
-        entities.add(entitie);
-        entitie.setLevel(this);
+    public void addGameObject(GameObject gameObject){
+        gameObjects.add(gameObject);
+        gameObject.setLevel(this);
     }
 
-    public void removeEntitie(Entitie entitie) {
-        entities.remove(entitie);
+    public void removeGameObject(GameObject gameObject) {
+        gameObjects.remove(gameObject);
     }
 
     public boolean isStarted() {

@@ -7,17 +7,22 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  * Created by MCForsas on 3/16/2019
  * Renderable framework. Will be used for rendering. Has a sprite by default.
  */
-public abstract class Renderable {
+public abstract class Renderable extends Entitie {
     protected Sprite sprite;
-    protected static Renderer renderer;
 
     protected float x = 0, y = 0, z = 0;
     protected float depth = 0;
 
     public boolean WARN_NO_SPRITE = false; //Weather to print stack trace if no sprite is set
 
-    public void start(){
-        renderer.addRenderable(this);
+    public Renderable(){
+
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        Engine.getRenderer().addRenderable(this);
     }
 
     public void render(SpriteBatch spriteBatch, float deltaTime){
@@ -45,6 +50,12 @@ public abstract class Renderable {
         }
 
         return false;
+    }
+
+    @Override
+    public void end() {
+        super.end();
+        Engine.getRenderer().removeRenderable(this);
     }
 
     //region <Getters and setters>
@@ -80,21 +91,13 @@ public abstract class Renderable {
         this.z = z;
     }
 
-    public static Renderer getRenderer() {
-        return renderer;
-    }
-
-    public static void setRenderer(Renderer rendererObject) {
-        renderer = rendererObject;
-    }
-
     public float getDepth() {
         return depth;
     }
 
     public void setDepth(float depth) {
         try {
-            renderer.refreshRenderOrder();
+            Engine.getRenderer().refreshRenderOrder();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

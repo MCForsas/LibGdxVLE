@@ -37,8 +37,11 @@ public class InputHandler implements InputProcessor {
                 Engine.getRenderer().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
-        for (InputListener listener : listeners) {
-            listener.touchDown(worldCoordinates.x, worldCoordinates.y);
+//        for (int i = 0; i < listeners.size(); i++) {
+//            listeners.get(i).touchDown(worldCoordinates.x, worldCoordinates.y);
+//        }
+        for(InputListener inputListener : listeners){
+            inputListener.touchDown(worldCoordinates.x,worldCoordinates.y);
         }
         return false;
     }
@@ -81,6 +84,10 @@ public class InputHandler implements InputProcessor {
 
     public void addInputListener(InputListener listener){
         listeners.add(listener);
+    }
+
+    public void removeInputListener(InputListener listener){
+        listeners.remove(listener);
     }
 
     public boolean isKeyDown(final int keycode){

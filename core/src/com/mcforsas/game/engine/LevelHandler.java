@@ -23,7 +23,6 @@ public class LevelHandler extends Renderable{
                 fitViewport();
             }
             level.start();
-            Engine.getRenderer().addRenderable(currentLevel);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -33,6 +32,7 @@ public class LevelHandler extends Renderable{
         try {
             level.end();
             Engine.getRenderer().removeRenderable(level);
+            //levels.remove(level);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -43,11 +43,26 @@ public class LevelHandler extends Renderable{
     }
 
     public void nextLevel(){
-        int index = levels.indexOf(currentLevel);
-        while(levels.get(++index) == null){
-
-        }
         endLevel();
+        int index = levels.indexOf(currentLevel);
+        try {
+            while (levels.get(++index) == null) {
+            }
+        }catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
+        setCurrentLevel(levels.get(index));
+    }
+
+    public void previousLevel(){
+        endLevel();
+        int index = levels.indexOf(currentLevel);
+        try {
+            while (levels.get(--index) == null) {
+            }
+        }catch (ArrayIndexOutOfBoundsException e){
+            e.printStackTrace();
+        }
         setCurrentLevel(levels.get(index));
     }
 
@@ -119,7 +134,6 @@ public class LevelHandler extends Renderable{
 
     public void setCurrentLevel(Level level) throws NullPointerException{
         this.currentLevel = level;
-        Engine.getRenderer().addRenderable(level);
 
         if(level == null)
             throw new NullPointerException();

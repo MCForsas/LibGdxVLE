@@ -20,14 +20,10 @@ public class Renderer {
     private Vector<Viewport> viewports = new Vector<Viewport>();
     private Viewport currentViewport;
 
-    private Vector<Renderable> renderables = new Vector<Renderable>(); //All rendered items
+    private Vector<Renderable> renderables = new Vector<Renderable>();//All rendered items
 
     public final float CAMERA_Z = 0;
     private boolean isCameraBounded = true; //Weather camera is allowed to leave the level
-
-    public Renderer(){
-
-    }
 
     public void setupDefault(){
         currentCamera = new OrthographicCamera();
@@ -79,12 +75,6 @@ public class Renderer {
 
     public void resize(int width, int height){
         currentViewport.update(width, height);
-//        Utils.warnf("world dimensions: x%f:y%f screen dimensions: x%d:y%d",
-//                currentViewport.getWorldWidth(),
-//                currentViewport.getWorldHeight(),
-//                width,
-//                height
-//                );
     }
 
     public void addRenderable(Renderable renderable){
@@ -156,13 +146,6 @@ public class Renderer {
                     worldHeight - camera.viewportHeight/2
             );
         }
-
-//        Utils.warnf(
-//                "Camera x: %f, camera.viewportWidth/2: %f, worldHeight - camera.viewportHeight/2: %f",
-//                camera.position.x,
-//                camera.viewportWidth/2,
-//                worldWidth - camera.viewportWidth/2
-//        );
 
         camera.position.set(x,y, CAMERA_Z);
     }

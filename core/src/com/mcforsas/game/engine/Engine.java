@@ -2,6 +2,9 @@ package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.levels.LevelExample;
 import com.mcforsas.game.levels.LevelExample2;
@@ -21,9 +24,8 @@ public class Engine extends ApplicationAdapter {
 	private static AssetHandler assetHandler;
 	private static InputHandler inputHandler;
 
-	private Thread loaderThread;
 	private SpriteBatch spriteBatch;
-	private LoadingScreen loadingScreen;
+	private Thread assetLoadingThread;
 
 	@Override
 	public void create () {
@@ -34,14 +36,11 @@ public class Engine extends ApplicationAdapter {
 
 		spriteBatch = new SpriteBatch();
 
-		Entitie.setRenderer(renderer);
 		renderer.setupDefault();
 
-		loadingScreen = new LoadingScreen();
-		renderer.addRenderable(loadingScreen);
-		loaderThread = new Thread(new Loader());
+		assetLoadingThread = new Thread(new QeueuLoader());
 
-		Gdx.app.postRunnable(loaderThread);
+		Gdx.app.postRunnable(assetLoadingThread);
 
 		Gdx.input.setInputProcessor(inputHandler);
 	}
@@ -49,9 +48,7 @@ public class Engine extends ApplicationAdapter {
 	@Override
 	public void render () {
 		float deltaTime = Gdx.graphics.getDeltaTime();
-
 		update(deltaTime);
-
 		renderer.render(spriteBatch, deltaTime);
 	}
 
@@ -86,19 +83,20 @@ public class Engine extends ApplicationAdapter {
 	/*
 	 * After all the assets are loaded and main object created, start the game
 	 */
-	void startGame(){
-		renderer.removeRenderable(loadingScreen);
+	public void startGame(){
 		levelHandler.addLevel(new LevelExample());
 		levelHandler.addLevel(new LevelExample2());
 		levelHandler.startFirstLevel();
 	}
 
 	public void loadAssets(){
-		assetHandler.loadTexture("sprBadlogic", "badlogic.jpg");
-		assetHandler.loadTexture("sprExample", "example.jpg");
+		assetHandler.addToQueue(Texture.class, "sprBadlogic", "badlogic.jpg");
+		assetHandler.addToQueue(Texture.class, "sprExample", "example.jpg");
+		assetHandler.addToQueue(Music.class, "musExample","example.ogg");
+		assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
 
-		assetHandler.loadMusic("musExample","example.ogg");
-		assetHandler.loadSound("sndExample","test.wav");
+		assetHandler.startLoadingQueu();
+
 		startGame();
 	}
 
@@ -120,7 +118,7 @@ public class Engine extends ApplicationAdapter {
 	}
 	//endregion
 
-	private class Loader implements Runnable {
+	private class QeueuLoader implements Runnable {
 		@Override
 		public void run() {
 			loadAssets();

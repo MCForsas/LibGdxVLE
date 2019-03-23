@@ -1,6 +1,5 @@
-package com.mcforsas.game.entities;
+package com.mcforsas.game.gameObjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,9 +9,9 @@ import com.mcforsas.game.engine.*;
  * Created by MCForsas on 3/16/2019
  * example entitie
  */
-public class EntitieExample extends Entitie implements InputListener {
+public class GameObjectExample extends GameObject implements InputListener {
 
-    public EntitieExample(float x, float depth){
+    public GameObjectExample(float x, float depth){
         sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
         this.x = x;
         y = Engine.WORLD_HEIGHT/2;
@@ -34,8 +33,10 @@ public class EntitieExample extends Entitie implements InputListener {
         if(isOnSprite(x,y)) {
             Engine.getAssetHandler().getSound("sndExample").play();
         }
+
         if(Engine.getInputHandler().isButtonDown(Input.Buttons.RIGHT)){
-            Engine.getLevelHandler().nextLevel();
+            this.x = x;
+            this.y = y;
         }
     }
 
