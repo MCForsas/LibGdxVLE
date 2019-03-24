@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import java.util.*;
 
 /*
@@ -25,6 +26,13 @@ public class Renderer {
     public final float CAMERA_Z = 0;
     private boolean isCameraBounded = true; //Weather camera is allowed to leave the level
 
+    //Dimensions of the viewport (Game world dimensions)
+    public final int viewportWidth = Engine.WORLD_WIDTH;
+    public final int viewportHeight = Engine.WORLD_HEIGHT;
+
+    //Maximum allowed deviation from regular aspect ratio
+    public final float maxAspectDeviation = .3f;
+
     /*
      * Setup default renderer defaults: Ortographic camera, ExtendViewPort and position camera in
      * the center
@@ -33,10 +41,12 @@ public class Renderer {
         currentCamera = new OrthographicCamera();
         addCemera(currentCamera);
 
-        currentViewport = new ExtendViewport(Engine.WORLD_WIDTH, Engine.WORLD_HEIGHT,currentCamera);
-        currentViewport.apply();
-
-        setCameraPosition(currentViewport.getWorldWidth()/2, currentViewport.getWorldHeight()/2);
+        currentViewport = new ExtendViewport(viewportWidth, viewportHeight,currentCamera);
+        setViewportMaxDimensions(
+                viewportWidth * (1 + maxAspectDeviation),
+                viewportHeight * (1 + maxAspectDeviation)
+        );
+        addViewport(currentViewport);
     }
 
     public void render(SpriteBatch sb, float deltaTime){
@@ -153,37 +163,42 @@ public class Renderer {
 
         camera.position.set(x,y, CAMERA_Z);
     }
-
-    public void centerCamera(Camera camera) {
-        camera.position.set(currentViewport.getWorldWidth()/2, currentViewport.getWorldHeight()/2, CAMERA_Z);
-    }
     //endregion
 
     //region <Viewport>
-    public Viewport getViewport() {
-        return currentViewport;
-    }
-
-    public void setViewport(Viewport viewport) {
-        this.currentViewport = viewport;
-        viewport.apply();
-    }
-
-    public void resizeViewport(int width, int heigth){
-        resizeViewport(currentViewport, width, heigth);
-    }
-
-    public void resizeViewport(Viewport viewport, int width, int heigth){
-        viewport.setWorldSize(width, heigth);
-        viewport.apply();
-    }
-
     public void addViewport(Viewport viewport){
         viewports.add(viewport);
     }
 
     public void removeViewport(Viewport viewport){
         viewports.remove(viewport);
+    }
+
+    /*
+     * Max dimensions before viewport starts letterboxing
+     * @param viewport to apply to
+     * @param width
+     * @param height
+     */
+    private void setViewportMaxDimensions(Viewport viewport, float width, float height){
+        width = Utils.clamp(
+                width,
+                ((ExtendViewport)viewport).getMinWorldWidth(),
+                width
+        );
+
+        height = Utils.clamp(
+                height,
+                ((ExtendViewport)viewport).getMinWorldHeight(),
+                height
+        );
+
+        ((ExtendViewport) viewport).setMaxWorldWidth(width);
+        ((ExtendViewport) viewport).setMaxWorldHeight(height);
+    }
+
+    public void setViewportMaxDimensions(float width, float height) {
+        setViewportMaxDimensions(currentViewport, width, height);
     }
 
     //endregion
@@ -196,6 +211,23 @@ public class Renderer {
     public void setCameraBounded(boolean cameraBounded) {
         isCameraBounded = cameraBounded;
     }
+
+    public Viewport getCurrentViewport() {
+        return currentViewport;
+    }
+
+    public void setCurrentViewport(Viewport viewport) {
+        this.currentViewport = viewport;
+    }
+
+    public Camera getCurrentCamera() {
+        return currentCamera;
+    }
+
+    public void setCurrentCamera(Camera currentCamera) {
+        this.currentCamera = currentCamera;
+    }
+
     //endregion
 
     /*

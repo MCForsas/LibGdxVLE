@@ -19,10 +19,10 @@ public class LevelHandler extends Renderable{
 
     public void startLevel(Level level) {
         try {
-            if(FIT_VIEWPORT_ON_START){
-                fitViewport();
-            }
             level.start();
+            if(FIT_VIEWPORT_ON_START){
+
+            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -96,6 +96,11 @@ public class LevelHandler extends Renderable{
         }
         setCurrentLevel(levels.get(index));
     }
+
+    public void restartLevel(){
+        endLevel();
+        setCurrentLevel(currentLevel);
+    }
     //endregion
 
     public void addLevel(Level level){
@@ -115,22 +120,6 @@ public class LevelHandler extends Renderable{
         }catch (NullPointerException e){
             e.printStackTrace();
         }
-    }
-
-    public void fitViewport(Level level) {
-        if(
-                level.getHeigth() != Engine.getRenderer().getViewport().getWorldHeight() ||
-                        level.getWidth() != Engine.getRenderer().getViewport().getWorldWidth()
-        ){
-            Engine.getRenderer().resizeViewport(
-                    level.getWidth(),
-                    level.getHeigth()
-            );
-        }
-    }
-
-    public void fitViewport(){
-        fitViewport(currentLevel);
     }
 
     public Level getCurrentLevel() {

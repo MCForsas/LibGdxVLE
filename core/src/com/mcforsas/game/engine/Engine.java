@@ -16,7 +16,7 @@ import com.mcforsas.game.levels.LevelExample2;
 
 public class Engine extends ApplicationAdapter {
 	//Constants
-	public static final int WORLD_WIDTH = 10, WORLD_HEIGHT = 10;
+	public static final int WORLD_WIDTH = 80, WORLD_HEIGHT = 45;
 
 	//Main handlers
 	private static Renderer renderer;

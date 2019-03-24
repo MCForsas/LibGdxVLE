@@ -55,10 +55,6 @@ public abstract class Level extends Renderable{
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
     }
-
-    public void centerCamera(){
-        Engine.getRenderer().setCameraPosition(width/2, heigth/2);
-    }
     /*
      * Adds gameObject and sets it's level to self
      */

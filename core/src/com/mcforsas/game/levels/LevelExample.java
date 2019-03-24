@@ -17,14 +17,16 @@ public class LevelExample extends Level {
     @Override
     public void start() {
         setWidth(Engine.WORLD_WIDTH*2);
-        setHeigth(Engine.WORLD_WIDTH*2);
+        setHeigth(Engine.WORLD_HEIGHT);
         setDepth(100);
 
-        addGameObject(new GameObjectExample(Engine.WORLD_WIDTH/2, 1));
+        addGameObject(new GameObjectExample(0, 1,this));
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprExample"));
         sprite.setPosition(0,0);
-        sprite.setSize(getHeigth(), getHeigth());
+        sprite.setBounds(0,0,getWidth(), getHeigth());
+
+        //Engine.getRenderer().setMaxDimensions(getWidth(), getHeigth());
         super.start();
     }
 

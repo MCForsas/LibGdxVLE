@@ -11,12 +11,12 @@ import com.mcforsas.game.engine.*;
  */
 public class GameObjectExample extends GameObject implements InputListener {
 
-    public GameObjectExample(float x, float depth){
+    public GameObjectExample(float x, float depth, Level level){
         sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
         this.x = x;
-        y = Engine.WORLD_HEIGHT/2;
+        y = x;
         sprite.setPosition(x,y);
-        sprite.setSize(Engine.WORLD_WIDTH/2,y);
+        sprite.setBounds(x,y,level.getHeigth()/4,level.getHeigth()/4);
 
         setDepth(depth);
 
