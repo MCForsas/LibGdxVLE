@@ -1,13 +1,16 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.handlers;
+
+import com.mcforsas.game.engine.Engine;
+import com.mcforsas.game.engine.Level;
+import com.mcforsas.game.engine.Renderable;
 
 import java.util.Vector;
 
-/*
+/**
  * @author MCForsas on 3/16/2019
  * Handles levels. Runs them. Starts and ends.
  */
-public class LevelHandler extends Renderable{
-    private static final boolean FIT_VIEWPORT_ON_START = false;
+public class LevelHandler extends Renderable {
     private Vector<Level> levels = new Vector<Level>();
     private Level currentLevel;
     private boolean paused = false;
@@ -20,9 +23,6 @@ public class LevelHandler extends Renderable{
     public void startLevel(Level level) {
         try {
             level.start();
-            if(FIT_VIEWPORT_ON_START){
-
-            }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -67,30 +67,32 @@ public class LevelHandler extends Renderable{
 
     }
 
-    /*
+    /**
      * Change the level to the next one.
      */
     public void nextLevel(){
         endLevel();
         int index = levels.indexOf(currentLevel);
         try {
-            while (levels.get(++index) == null) {
-            }
+            do{
+                index++;
+            }while (levels.get(index) == null);
         }catch (ArrayIndexOutOfBoundsException e){
             e.printStackTrace();
         }
         setCurrentLevel(levels.get(index));
     }
 
-    /*
+    /**
      * Change the level to the previous one.
      */
     public void previousLevel(){
         endLevel();
         int index = levels.indexOf(currentLevel);
         try {
-            while (levels.get(--index) == null) {
-            }
+            do{
+                index++;
+            }while (levels.get(index) == null);
         }catch (ArrayIndexOutOfBoundsException e){
             e.printStackTrace();
         }

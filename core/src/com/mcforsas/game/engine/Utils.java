@@ -1,10 +1,11 @@
 package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.Gdx;
+
 import java.util.Random;
 
 
-/*
+/**
  * @author MCForsas @since 3/16/2019
  * Packs a bunch of useful functions.
  */
@@ -14,7 +15,7 @@ public final class Utils {
 
     public static final String WARNING_TAG = "warning";
 
-    /*
+    /**
      * Clamps a value between min and max
      * @param value
      * @param min
@@ -33,7 +34,7 @@ public final class Utils {
 
     //region <Random based methods>
 
-    /*
+    /**
      * Chooses random object from given ones
      * @param Object... objects
      * @return Object
@@ -43,7 +44,7 @@ public final class Utils {
         return objects[r.nextInt(objects.length)];
     }
 
-    /*
+    /**
      * Returns random int between 0 and max
      * @return int
      */
@@ -52,7 +53,7 @@ public final class Utils {
         return r.nextInt(max);
     }
 
-    /*
+    /**
      * Returns random int between min and max
      * @return int
      */
@@ -62,7 +63,7 @@ public final class Utils {
 
     }
 
-    /*
+    /**
      * Returns true at given chance
      * @param int percentage number between 0 - 100
      * @return boolean chance true chance% of the time
@@ -72,7 +73,7 @@ public final class Utils {
         return percentage > r.nextInt(100);
     }
 
-    /*
+    /**
      * Returns first object chance% of the time and second object  100% - chance% of the time
      * @param Object object1
      * @param Object object2
@@ -88,7 +89,7 @@ public final class Utils {
         return !bool;
     }
 
-    /*
+    /**
      * returns number between 0 and 1, which is eased in.
      * @param int progress
      * @return eased out
@@ -99,7 +100,7 @@ public final class Utils {
         return y;
     }
 
-    /*
+    /**
      * Approaches one value to other, by given completion amount (0 - 1);
      * @param float completion completion rating from 0 to 1
      * @param float from start value
@@ -109,7 +110,7 @@ public final class Utils {
         return from + (to - from) * completion;
     }
 
-    /*
+    /**
      * Checks if value falls in range between two other values
      * @param value value to check
      * @param min min value
@@ -120,7 +121,7 @@ public final class Utils {
         return (value >= min && value <= max);
     }
 
-    /*
+    /**
      * Returns stack of random ints between min and max
      * @param int min
      * @param int max
@@ -138,7 +139,7 @@ public final class Utils {
     }
 
 
-    /*
+    /**
      * Prints formated string as warning
      * @param String format format
      * @param Object[] o format
@@ -147,7 +148,7 @@ public final class Utils {
         Gdx.app.log(WARNING_TAG, String.format(format, o));
     }
 
-    /*
+    /**
      * Prints formated string as warning
      * @param String format format
      */

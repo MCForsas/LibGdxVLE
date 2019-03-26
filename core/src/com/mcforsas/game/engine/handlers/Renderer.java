@@ -1,4 +1,4 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mcforsas.game.engine.Engine;
+import com.mcforsas.game.engine.Level;
+import com.mcforsas.game.engine.Renderable;
+import com.mcforsas.game.engine.Utils;
 
 import java.util.*;
 
-/*
+/**
  * @author MCForsas @since 3/16/2019
  * Renders all the added entities
  */
@@ -33,7 +37,7 @@ public class Renderer {
     //Maximum allowed deviation from regular aspect ratio
     public final float maxAspectDeviation = .3f;
 
-    /*
+    /**
      * Setup default renderer defaults: Ortographic camera, ExtendViewPort and position camera in
      * the center
      */
@@ -66,7 +70,7 @@ public class Renderer {
         sb.end();
     }
 
-    /*
+    /**
      * Sorts entities based on depth value
      */
     public void refreshRenderOrder(){
@@ -136,8 +140,8 @@ public class Renderer {
     private void boundCamera(Camera camera){
         float x = camera.position.x, y = camera.position.y;
 
-        int worldWidth = Engine.WORLD_WIDTH;
-        int worldHeight = Engine.WORLD_HEIGHT;
+        float worldWidth = Engine.WORLD_WIDTH;
+        float worldHeight = Engine.WORLD_HEIGHT;
 
         try {
             Level level = Engine.getLevelHandler().getCurrentLevel();
@@ -150,14 +154,14 @@ public class Renderer {
         if(isCameraBounded) {
             x = Utils.clamp(
                     camera.position.x,
-                    camera.viewportWidth/2,
-                    worldWidth - camera.viewportWidth/2
+                    (camera.viewportWidth/2),
+                    (worldWidth - camera.viewportWidth/2)
             );
 
             y = Utils.clamp(
                     camera.position.y,
                     camera.viewportHeight/2,
-                    worldHeight - camera.viewportHeight/2
+                    (worldHeight - camera.viewportHeight/2)
             );
         }
 
@@ -174,7 +178,7 @@ public class Renderer {
         viewports.remove(viewport);
     }
 
-    /*
+    /**
      * Max dimensions before viewport starts letterboxing
      * @param viewport to apply to
      * @param width
@@ -230,7 +234,7 @@ public class Renderer {
 
     //endregion
 
-    /*
+    /**
      * Used for Sorting renderables array
      */
     private class ValueComparator implements Comparator<Renderable> {

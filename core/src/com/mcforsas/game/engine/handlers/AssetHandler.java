@@ -1,17 +1,16 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.handlers;
 
 import com.badlogic.gdx.Gdx;
-
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.mcforsas.game.engine.Exceptions.UnknownAssetTypeException;
+import com.mcforsas.game.engine.exceptions.UnknownAssetTypeException;
 
 import java.util.HashMap;
 
-/*
+/**
  * @author mcforsas @since 3/16/2019
  * Handles assets by loading them into memory and keeping them accessible by key.
  */
@@ -40,7 +39,7 @@ public class AssetHandler {
 
     private static final boolean ANTI_ALIASING = true;
 
-    AssetHandler() {
+    public AssetHandler() {
         textures = new HashMap<String, Texture>();
         sounds = new HashMap<String, Sound>();
         music = new HashMap<String, Music>();
@@ -86,7 +85,7 @@ public class AssetHandler {
         data.put(name, f);
     }
 
-    /*
+    /**
      * Loads any supported asset
      * @param Class type of asset to load
      * @param name to use when referencing in code
@@ -96,30 +95,17 @@ public class AssetHandler {
     public void loadAsset(Class type, String name, String filePath) throws UnknownAssetTypeException {
         if (type == Texture.class) {
             loadTexture(name, filePath);
-            return;
-        }
-
-        if (type == Sound.class) {
+        }else if (type == Sound.class) {
             loadSound(name, filePath);
-            return;
-        }
-
-        if (type == Music.class) {
+        }else if (type == Music.class) {
             loadMusic(name, filePath);
-            return;
-        }
-
-        if (type == FileHandle.class) {
+        }else if (type == FileHandle.class) {
             loadFile(name, filePath);
-            return;
-        }
-
-        if (type == BitmapFont.class) {
+        }else if (type == BitmapFont.class) {
             loadFont(name, filePath);
-            return;
+        }else {
+            throw new UnknownAssetTypeException();
         }
-
-        throw new UnknownAssetTypeException();
     }
     //endregion
 
@@ -144,7 +130,7 @@ public class AssetHandler {
         return data.get(name);
     }
 
-    /*
+    /**
      * Get's asset by name. Returns null if no such asset was found
      * @param asset's name
      * @return Object found asset or null.

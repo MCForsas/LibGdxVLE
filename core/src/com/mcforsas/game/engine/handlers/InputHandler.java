@@ -1,12 +1,14 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
+import com.mcforsas.game.engine.Engine;
+import com.mcforsas.game.engine.InputListener;
 
 import java.util.Vector;
 
-/*
+/**
  * @author MCForsas @since 3/16/2019
  * Handles input. When key is pressed, calls input listeners
  */

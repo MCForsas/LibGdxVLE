@@ -3,7 +3,7 @@ package com.mcforsas.game.engine;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-/*
+/**
  * @author MCForsas @since 3/16/2019
  * Renderable framework. Will be used for rendering. Has a sprite by default.
  */
@@ -34,7 +34,7 @@ public abstract class Renderable extends Entitie {
         }
     }
 
-    /*
+    /**
      * Checks if coordinates are on sprite
      * @param x
      * @param y

@@ -5,10 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.engine.Engine;
 import com.mcforsas.game.engine.Level;
-import com.mcforsas.game.engine.Renderer;
+import com.mcforsas.game.engine.handlers.Renderer;
 import com.mcforsas.game.gameObjects.GameObjectExample;
 
-/*
+/**
  * @author MCForsas @since 3/16/2019
  * Example level to use
  */
@@ -30,7 +30,7 @@ public class LevelExample extends Level {
         super.start();
     }
 
-    /*
+    /**
      * Move around with wasd and goto next level with n.
      */
     @Override

@@ -3,11 +3,15 @@ package com.mcforsas.game.gameObjects;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mcforsas.game.engine.*;
+import com.mcforsas.game.engine.Engine;
+import com.mcforsas.game.engine.GameObject;
+import com.mcforsas.game.engine.InputListener;
+import com.mcforsas.game.engine.Level;
+import com.mcforsas.game.engine.handlers.AssetHandler;
 
-/*
+/**
  * @author MCForsas @since 3/16/2019
- * example entitie
+ * example Game object
  */
 public class GameObjectExample extends GameObject implements InputListener {
 

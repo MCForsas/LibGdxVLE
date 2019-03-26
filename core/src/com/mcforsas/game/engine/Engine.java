@@ -6,10 +6,14 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mcforsas.game.engine.handlers.AssetHandler;
+import com.mcforsas.game.engine.handlers.InputHandler;
+import com.mcforsas.game.engine.handlers.LevelHandler;
+import com.mcforsas.game.engine.handlers.Renderer;
 import com.mcforsas.game.levels.LevelExample;
 import com.mcforsas.game.levels.LevelExample2;
 
-/*
+/**
  * @author MCForsas @since 3/16/2019
  * Main game class holds all game constants, main game loop and handlers
  */
@@ -25,7 +29,6 @@ public class Engine extends ApplicationAdapter {
 	private static InputHandler inputHandler;
 
 	private SpriteBatch spriteBatch;
-	private Thread assetLoadingThread;
 
 	@Override
 	public void create () {
@@ -39,8 +42,9 @@ public class Engine extends ApplicationAdapter {
 		renderer.setupDefault();
 		Gdx.input.setInputProcessor(inputHandler);
 
-		assetLoadingThread = new Thread(new QeueuLoader()); //Loads assets on a separate thread
+		Thread assetLoadingThread = new Thread(new QeueuLoader()); //Loads assets on a separate thread
 		Gdx.app.postRunnable(assetLoadingThread);
+
 	}
 
 	@Override
@@ -50,11 +54,11 @@ public class Engine extends ApplicationAdapter {
 		renderer.render(spriteBatch, deltaTime);
 	}
 
-	/*
+	/**
 	 * Updates game ie: game logic
 	 * @param float time that passed since last render update.
 	 */
-	public void update(float deltaTime){
+	private void update(float deltaTime){
 		levelHandler.update(deltaTime);
 	}
 	
@@ -82,16 +86,16 @@ public class Engine extends ApplicationAdapter {
 		levelHandler.setPaused(false);
 	}
 
-	/*
+	/**
 	 * After all the assets are loaded and main object created, start the game - setup default.
 	 */
-	public void startGame(){
+	private void startGame(){
 		levelHandler.addLevel(new LevelExample());
 		levelHandler.addLevel(new LevelExample2());
 		levelHandler.startFirstLevel();
 	}
 
-	public void loadAssets(){
+	private void loadAssets(){
 		assetHandler.addToQueue(Texture.class, "sprBadlogic", "badlogic.jpg");
 		assetHandler.addToQueue(Texture.class, "sprExample", "example.jpg");
 		assetHandler.addToQueue(Music.class, "musExample","example.ogg");

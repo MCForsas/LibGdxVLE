@@ -3,9 +3,10 @@ package com.mcforsas.game.levels;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mcforsas.game.engine.*;
+import com.mcforsas.game.engine.Engine;
+import com.mcforsas.game.engine.Level;
 
-/*
+/**
  * Created by MCForsas on 3/16/2019
  * Example level to use
  */

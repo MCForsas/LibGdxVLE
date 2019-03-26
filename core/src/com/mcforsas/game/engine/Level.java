@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ConcurrentModificationException;
 import java.util.LinkedHashSet;
 
-/*
+/**
  * @author by MCForsas @since 3/16/2019
  * Level object, holds gameObjects, can be used to draw backgrounds, etc.
  */
@@ -55,7 +55,8 @@ public abstract class Level extends Renderable{
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
     }
-    /*
+
+    /**
      * Adds gameObject and sets it's level to self
      */
     public void addGameObject(GameObject gameObject){
