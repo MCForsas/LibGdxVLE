@@ -36,7 +36,7 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 worldCoordinates =
-                Engine.getRenderer().
+                Engine.getRenderHandler().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
         for(InputListener inputListener : listeners){
@@ -48,7 +48,7 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector3 worldCoordinates =
-                Engine.getRenderer().
+                Engine.getRenderHandler().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
         for (InputListener listener : listeners) {

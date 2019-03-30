@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.InputHandler;
 import com.mcforsas.game.engine.handlers.LevelHandler;
-import com.mcforsas.game.engine.handlers.Renderer;
+import com.mcforsas.game.engine.handlers.RenderHandler;
 import com.mcforsas.game.levels.LevelExample;
 import com.mcforsas.game.levels.LevelExample2;
 
@@ -20,10 +20,10 @@ import com.mcforsas.game.levels.LevelExample2;
 
 public class Engine extends ApplicationAdapter {
 	//Constants
-	public static final int WORLD_WIDTH = 80, WORLD_HEIGHT = 45;
+	public static final int WORLD_WIDTH = 16, WORLD_HEIGHT = 9;
 
 	//Main handlers
-	private static Renderer renderer;
+	private static RenderHandler renderHandler;
 	private static LevelHandler levelHandler;
 	private static AssetHandler assetHandler;
 	private static InputHandler inputHandler;
@@ -32,14 +32,14 @@ public class Engine extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		renderer = new Renderer();
+		renderHandler = new RenderHandler();
 		levelHandler = new LevelHandler();
 		assetHandler = new AssetHandler();
 		inputHandler = new InputHandler();
 
 		spriteBatch = new SpriteBatch();
 
-		renderer.setupDefault();
+		renderHandler.setupDefault();
 		Gdx.input.setInputProcessor(inputHandler);
 
 		Thread assetLoadingThread = new Thread(new QeueuLoader()); //Loads assets on a separate thread
@@ -51,12 +51,12 @@ public class Engine extends ApplicationAdapter {
 	public void render () {
 		float deltaTime = Gdx.graphics.getDeltaTime();
 		update(deltaTime);
-		renderer.render(spriteBatch, deltaTime);
+		renderHandler.render(spriteBatch, deltaTime);
 	}
 
 	/**
 	 * Updates game ie: game logic
-	 * @param float time that passed since last render update.
+	 * @param deltaTime time that passed since last render update.
 	 */
 	private void update(float deltaTime){
 		levelHandler.update(deltaTime);
@@ -71,7 +71,7 @@ public class Engine extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
-		renderer.resize(width, height);
+		renderHandler.resize(width, height);
 	}
 
 	@Override
@@ -107,8 +107,8 @@ public class Engine extends ApplicationAdapter {
 	}
 
 	//region <Getters>
-	public static Renderer getRenderer() {
-		return renderer;
+	public static RenderHandler getRenderHandler() {
+		return renderHandler;
 	}
 
 	public static LevelHandler getLevelHandler() {

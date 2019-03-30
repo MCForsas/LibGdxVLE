@@ -22,7 +22,7 @@ public abstract class Renderable extends Entitie {
     @Override
     public void start() {
         super.start();
-        Engine.getRenderer().addRenderable(this);
+        Engine.getRenderHandler().addRenderable(this);
     }
 
     public void render(SpriteBatch spriteBatch, float deltaTime){
@@ -57,7 +57,7 @@ public abstract class Renderable extends Entitie {
     @Override
     public void end() {
         super.end();
-        Engine.getRenderer().removeRenderable(this);
+        Engine.getRenderHandler().removeRenderable(this);
     }
 
     //region <Getters and setters>
@@ -68,7 +68,7 @@ public abstract class Renderable extends Entitie {
 
     public void setDepth(float depth) {
         try {
-            Engine.getRenderer().refreshRenderOrder(); //Refresh render order
+            Engine.getRenderHandler().refreshRenderOrder(); //Refresh render order
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

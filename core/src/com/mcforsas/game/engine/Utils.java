@@ -17,7 +17,7 @@ public final class Utils {
 
     /**
      * Clamps a value between min and max
-     * @param value
+     * @param val
      * @param min
      * @param max
      * @return float clamped value
@@ -32,11 +32,22 @@ public final class Utils {
         return val;
     }
 
+    /**
+     * Clamps value to be in range of a point
+     * @param val
+     * @param point
+     * @param range
+     * @return val
+     */
+    public static float clampRange(float val, float point, float range){
+        return clamp(val, point - range, point + range);
+    }
+
     //region <Random based methods>
 
     /**
      * Chooses random object from given ones
-     * @param Object... objects
+     * @param  objects
      * @return Object
      */
     public static Object choose(Object... objects) {
@@ -65,7 +76,7 @@ public final class Utils {
 
     /**
      * Returns true at given chance
-     * @param int percentage number between 0 - 100
+     * @param percentage number between 0 - 100
      * @return boolean chance true chance% of the time
      */
     public static boolean chance(int percentage) {
@@ -75,9 +86,9 @@ public final class Utils {
 
     /**
      * Returns first object chance% of the time and second object  100% - chance% of the time
-     * @param Object object1
-     * @param Object object2
-     * @param int percentage number between 0 - 100
+     * @param object1
+     * @param object2
+     * @param percentage number between 0 - 100
      * @return Object chosen object
      */
     public static Object pick(Object object1, Object object2, int percentage) {
@@ -91,23 +102,53 @@ public final class Utils {
 
     /**
      * returns number between 0 and 1, which is eased in.
-     * @param int progress
+     * @param progress
      * @return eased out
      */
-
-    public static float easeIn(float value){
-        float y = (float) Math.pow(Math.sin(5*value/Math.PI),2);
+    public static float easeIn(float progress){
+        float y = (float) Math.pow(Math.sin(5*progress/Math.PI),2);
         return y;
     }
 
     /**
      * Approaches one value to other, by given completion amount (0 - 1);
-     * @param float completion completion rating from 0 to 1
-     * @param float from start value
-     * @param float to end value
+     * @param completion completion rating from 0 to 1
+     * @param from start value
+     * @param to end value
      */
     public static float approach(float completion, float from, float to){
         return from + (to - from) * completion;
+    }
+
+    /**
+     * Lerps value
+     * @param val
+     * @param toVal
+     * @param lerp
+     * @return
+     */
+    public static float lerp(float val, float toVal, float lerp){
+        return (toVal - val) * lerp;
+    }
+
+    /**
+     * Returns min possible value from val. Floor is max
+     * @param max
+     * @param val
+     * @return
+     */
+    public static float min(float max, float val){
+        return (max < val) ? max : val;
+    }
+
+    /**
+     * Returns max possible value from val. Floor is min
+     * @param min
+     * @param val
+     * @return
+     */
+    public static float max(float min, float val){
+        return (min > val) ? min : val;
     }
 
     /**
@@ -122,37 +163,34 @@ public final class Utils {
     }
 
     /**
-     * Returns stack of random ints between min and max
-     * @param int min
-     * @param int max
-     * @param int amount
-     * @return Stack<Integer> ints
+     * Returns if int is in array
+     * @param array
+     * @param searched
+     * @return boolean if is in array
      */
-
     public static boolean isInArray(int[] array, int searched) {
         for (int o : array) {
             if (o == searched)
                 return true;
         }
-
         return false;
     }
 
 
     /**
      * Prints formated string as warning
-     * @param String format format
-     * @param Object[] o format
+     * @param format string
+     * @param objects to  format
      */
-    public static void warnf(String format, Object ... o){
-        Gdx.app.log(WARNING_TAG, String.format(format, o));
+    public static void warnf(String format, Object ... objects){
+        Gdx.app.log(WARNING_TAG, String.format(format, objects));
     }
 
     /**
      * Prints formated string as warning
-     * @param String format format
+     * @param message
      */
-    public static void warn(String format){
-        Gdx.app.log(WARNING_TAG, format);
+    public static void warn(String message){
+        Gdx.app.log(WARNING_TAG, message);
     }
 }

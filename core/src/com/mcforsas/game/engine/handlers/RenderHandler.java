@@ -3,7 +3,6 @@ package com.mcforsas.game.engine.handlers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -18,7 +17,7 @@ import java.util.*;
  * @author MCForsas @since 3/16/2019
  * Renders all the added entities
  */
-public class Renderer {
+public class RenderHandler {
     private Vector<Camera> cameras = new Vector<Camera>();
     private Camera currentCamera;
 
@@ -42,7 +41,7 @@ public class Renderer {
      * the center
      */
     public void setupDefault(){
-        currentCamera = new OrthographicCamera();
+        currentCamera = new CameraHandler(.1f, 2);
         addCemera(currentCamera);
 
         currentViewport = new ExtendViewport(viewportWidth, viewportHeight,currentCamera);
@@ -204,7 +203,6 @@ public class Renderer {
     public void setViewportMaxDimensions(float width, float height) {
         setViewportMaxDimensions(currentViewport, width, height);
     }
-
     //endregion
 
     //region <Getters and setters>

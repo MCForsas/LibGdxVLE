@@ -111,7 +111,7 @@ public class LevelHandler extends Renderable {
 
     public void removeLevel(Level level) {
         levels.remove(level);
-        Engine.getRenderer().removeRenderable(level);
+        Engine.getRenderHandler().removeRenderable(level);
     }
 
     public void startFirstLevel(){

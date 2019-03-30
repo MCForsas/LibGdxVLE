@@ -19,7 +19,7 @@ public class GameData implements Serializable {
     /**
      * Adds data to the list
      * @param key
-     * @param data
+     * @param object
      */
     public void addData(String key, Object object){
         gameData.put(key, object);
@@ -36,7 +36,7 @@ public class GameData implements Serializable {
     /**
      * Returns data which was got. If it's null, default passed value will be returned.
      * @param key
-     * @param default
+     * @param defaultObject
      */
     public Object getDataDefault(String key, Object defaultObject){
         if(gameData.get(key) == null){
