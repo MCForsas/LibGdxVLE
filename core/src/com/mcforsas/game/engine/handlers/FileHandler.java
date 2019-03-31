@@ -84,7 +84,7 @@ public class FileHandler {
      * Puts preference to the preferences file
      * @param key
      * @param value
-     * @throws IllegalArgumentException if passed object is of incompatible type with preferences
+     * @throws if passed object is of incompatible type with preferences
      */
     public void putPreferences(String key, Object value) throws IllegalArgumentException{
         if(value instanceof String){

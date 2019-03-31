@@ -87,9 +87,9 @@ public class AssetHandler {
 
     /**
      * Loads any supported asset
-     * @param Class type of asset to load
+     * @param type of asset to load
      * @param name to use when referencing in code
-     * @param String file path to load from. Note: asset directories are applied automatically
+     * @param filePath to load from. Note: asset directories are applied automatically
      * @throws UnknownAssetTypeException if asset type is not supported.
      */
     public void loadAsset(Class type, String name, String filePath) throws UnknownAssetTypeException {
@@ -132,7 +132,7 @@ public class AssetHandler {
 
     /**
      * Get's asset by name. Returns null if no such asset was found
-     * @param asset's name
+     * @param name
      * @return Object found asset or null.
      */
     public static Object getAsset(String name) {

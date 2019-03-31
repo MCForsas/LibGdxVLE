@@ -47,7 +47,7 @@ public final class Utils {
 
     /**
      * Chooses random object from given ones
-     * @param  objects
+     * @param  objects to choose from
      * @return Object
      */
     public static Object choose(Object... objects) {
