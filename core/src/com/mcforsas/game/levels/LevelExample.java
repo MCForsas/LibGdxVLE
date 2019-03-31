@@ -1,5 +1,6 @@
 package com.mcforsas.game.levels;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.engine.Engine;
@@ -34,26 +35,9 @@ public class LevelExample extends Level {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-
-//        if(Engine.getInputHandler().isKeyDown(Input.Keys.W)){
-//            RenderHandler r =  Engine.getRenderHandler();
-//            r.translateCamera(0,1);
-//        }
-//        if(Engine.getInputHandler().isKeyDown(Input.Keys.S)){
-//            RenderHandler r =  Engine.getRenderHandler();
-//            r.translateCamera(0,-1);
-//        }
-//        if(Engine.getInputHandler().isKeyDown(Input.Keys.A)){
-//            RenderHandler r =  Engine.getRenderHandler();
-//            r.translateCamera(-1,0);
-//        }
-//        if(Engine.getInputHandler().isKeyDown(Input.Keys.D)){
-//            RenderHandler r =  Engine.getRenderHandler();
-//            r.translateCamera(1,0);
-//        }
-//        if(Engine.getInputHandler().isKeyDown(Input.Keys.N)){
-//            Engine.getLevelHandler().nextLevel();
-//        }
+        if(Engine.getInputHandler().isKeyDown(Input.Keys.N)){
+            Engine.getLevelHandler().nextLevel();
+        }
     }
 
 

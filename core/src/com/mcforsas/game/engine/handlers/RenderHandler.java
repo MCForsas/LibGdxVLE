@@ -41,7 +41,7 @@ public class RenderHandler {
      * the center
      */
     public void setupDefault(){
-        currentCamera = new CameraHandler(.1f, 2);
+        currentCamera = new CameraHandler(.1f, 6);
         addCemera(currentCamera);
 
         currentViewport = new ExtendViewport(viewportWidth, viewportHeight,currentCamera);
