@@ -9,7 +9,6 @@ public abstract class GameObject extends Renderable{
 
     public void update(float deltaTime){
         super.update();
-        sprite.setPosition(x,y);
     }
 
     public void dispose(){
