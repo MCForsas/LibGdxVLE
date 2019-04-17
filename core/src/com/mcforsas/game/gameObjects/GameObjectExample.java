@@ -62,6 +62,8 @@ public class GameObjectExample extends GameObject implements InputListener {
         x = Utils.clamp(x, 0, level.getWidth());
         y = Utils.clamp(y, 0, level.getHeigth());
 
+        sprite.setPosition(x,y);
+
         super.update(deltaTime);
         CameraHandler camera = (CameraHandler) Engine.getRenderHandler().getCurrentCamera();
         camera.updatePosition(x,y,deltaTime);

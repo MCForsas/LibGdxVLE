@@ -63,8 +63,8 @@ public class RenderHandler {
         sb.setProjectionMatrix(currentCamera.combined);
 
         sb.begin();
-        for(Renderable r : renderables){
-            r.render(sb, deltaTime);
+        for(int i = 0; i < renderables.size(); i++){
+            renderables.get(i).render(sb, deltaTime);
         }
         sb.end();
     }
@@ -77,7 +77,8 @@ public class RenderHandler {
         ValueComparator bvc = new ValueComparator(tempList);
         TreeMap<Renderable, Float> sortedMap = new TreeMap<Renderable, Float>(bvc);
 
-        for(Renderable r : renderables){
+        for(int i = 0; i < renderables.size(); i++){
+            Renderable r = renderables.get(i);
             tempList.put(r, r.getDepth());
         }
 
@@ -180,8 +181,8 @@ public class RenderHandler {
     /**
      * Max dimensions before viewport starts letterboxing
      * @param viewport to apply to
-     * @param width
-     * @param height
+     * @param width size in px
+     * @param height size in px
      */
     private void setViewportMaxDimensions(Viewport viewport, float width, float height){
         width = Utils.clamp(

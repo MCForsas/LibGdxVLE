@@ -19,16 +19,16 @@ public class InputHandler implements InputProcessor {
     //region <Call listeners and overrride methods>
     @Override
     public boolean keyDown(int keycode) {
-        for (InputListener listener : listeners) {
-            listener.keyDown(keycode);
+        for(int i = 0; i < listeners.size(); i++){
+            listeners.get(i).keyDown(keycode);
         }
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        for (InputListener listener : listeners) {
-            listener.keyUp(keycode);
+        for(int i = 0; i < listeners.size(); i++){
+            listeners.get(i).keyUp(keycode);
         }
         return true;
     }
@@ -39,8 +39,8 @@ public class InputHandler implements InputProcessor {
                 Engine.getRenderHandler().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
-        for(InputListener inputListener : listeners){
-            inputListener.touchDown(worldCoordinates.x,worldCoordinates.y);
+        for(int i = 0; i < listeners.size(); i++){
+            listeners.get(i).touchDown(worldCoordinates.x,worldCoordinates.y);
         }
         return false;
     }
@@ -51,8 +51,8 @@ public class InputHandler implements InputProcessor {
                 Engine.getRenderHandler().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
-        for (InputListener listener : listeners) {
-            listener.touchUp(worldCoordinates.x, worldCoordinates.y);
+        for(int i = 0; i < listeners.size(); i++){
+            listeners.get(i).touchUp(worldCoordinates.x, worldCoordinates.y);
         }
         return false;
     }
@@ -69,8 +69,8 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        for (InputListener listener : listeners) {
-            listener.mouseMoved(screenX, screenY);
+        for(int i = 0; i < listeners.size(); i++){
+            listeners.get(i).mouseMoved(screenX, screenY);
         }
         return false;
     }
