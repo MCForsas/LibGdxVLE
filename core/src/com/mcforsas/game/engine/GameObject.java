@@ -6,17 +6,13 @@ package com.mcforsas.game.engine;
  */
 public abstract class GameObject extends Renderable{
     protected Level level;
+    protected boolean isPaused = false;
 
     public void update(float deltaTime){
         super.update();
     }
 
     public void dispose(){
-    }
-
-    public void end(){
-        super.end();
-        level.removeGameObject(this);
     }
 
     public Level getLevel() {

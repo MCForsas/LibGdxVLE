@@ -12,6 +12,7 @@ public abstract class Renderable extends Entitie {
 
     protected float x = 0, y = 0, z = 0;
     protected float depth = 0;
+    protected boolean isRendered = true;
 
     public boolean WARN_NO_SPRITE = false; //Weather to print stack trace if no sprite is set
 
@@ -23,6 +24,7 @@ public abstract class Renderable extends Entitie {
     public void start() {
         super.start();
         Engine.getRenderHandler().addRenderable(this);
+        isRendered = true;
     }
 
     public void render(SpriteBatch spriteBatch, float deltaTime){
@@ -43,7 +45,7 @@ public abstract class Renderable extends Entitie {
         try {
             if(
                     Utils.isInRange(x, sprite.getX(), sprite.getX() + sprite.getWidth()) &&
-                    Utils.isInRange(y, sprite.getY(), sprite.getY() + sprite.getHeight())
+                            Utils.isInRange(y, sprite.getY(), sprite.getY() + sprite.getHeight())
             ){
                 return true;
             }
@@ -57,6 +59,7 @@ public abstract class Renderable extends Entitie {
     @Override
     public void end() {
         super.end();
+        isRendered = false;
         Engine.getRenderHandler().removeRenderable(this);
     }
 
@@ -67,12 +70,15 @@ public abstract class Renderable extends Entitie {
     }
 
     public void setDepth(float depth) {
+        if(depth != this.depth) {
+            this.depth = depth;
+        }
+
         try {
-            Engine.getRenderHandler().refreshRenderOrder(); //Refresh render order
+            Engine.getRenderHandler().refreshRenderOrder();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        this.depth = depth;
     }
 
     public Sprite getSprite() {
@@ -106,5 +112,15 @@ public abstract class Renderable extends Entitie {
     public void setZ(float z) {
         this.z = z;
     }
+
+    public boolean isRendered() {
+        return isRendered;
+    }
+
+    public void setRendered(boolean rendered) {
+        isRendered = rendered;
+    }
+
+
     //endregion
 }

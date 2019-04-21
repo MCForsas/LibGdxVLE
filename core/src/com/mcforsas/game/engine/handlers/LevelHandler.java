@@ -4,6 +4,7 @@ import com.mcforsas.game.engine.Engine;
 import com.mcforsas.game.engine.Level;
 import com.mcforsas.game.engine.Renderable;
 
+import java.util.NoSuchElementException;
 import java.util.Vector;
 
 /**
@@ -31,7 +32,7 @@ public class LevelHandler extends Renderable {
 
     public void update(Level level, float deltaTime) {
         try {
-            if (!paused)
+            if (!paused && level.isStarted())
                 level.update(deltaTime);
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -114,7 +115,7 @@ public class LevelHandler extends Renderable {
         Engine.getRenderHandler().removeRenderable(level);
     }
 
-    public void startFirstLevel(){
+    public void startFirstLevel() throws NoSuchElementException {
         Level level = levels.firstElement();
 
         try {

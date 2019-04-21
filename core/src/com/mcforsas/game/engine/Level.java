@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ConcurrentModificationException;
 import java.util.LinkedHashSet;
+import java.util.Vector;
 
 /**
  * @author by MCForsas @since 3/16/2019
@@ -11,45 +12,45 @@ import java.util.LinkedHashSet;
  */
 public abstract class Level extends Renderable{
 
-    private LinkedHashSet<GameObject> gameObjects = new LinkedHashSet<GameObject>();
+    private Vector<GameObject> gameObjects = new Vector<GameObject>();
     private boolean isStarted = false;
-    private int width = Engine.WORLD_WIDTH, heigth = Engine.WORLD_HEIGHT;
+    protected int width = Engine.WORLD_WIDTH, heigth = Engine.WORLD_HEIGHT;
 
 
     public void start(){
         super.start();
-        for(GameObject e : gameObjects){
-            e.start();
+        for(int i = 0; i < gameObjects.size(); i++){
+            gameObjects.get(i).start();
         }
         isStarted = true;
+        isRendered = true;
     }
 
     public void update(float deltaTime){
-        for(GameObject e : gameObjects){
-            e.update(deltaTime);
+        for(int i = 0; i < gameObjects.size(); i++){
+            if(!gameObjects.get(i).isPaused) {
+                gameObjects.get(i).update(deltaTime);
+            }
         }
     }
 
     public void dispose() {
-        for (GameObject e : gameObjects) {
-            e.dispose();
+        for(int i = 0; i < gameObjects.size(); i++){
+            gameObjects.get(i).dispose();
         }
     }
-    
+
 
     public void end(){
-        try {
-            for(GameObject e : gameObjects){
-                e.end();
-                removeGameObject(e);
-            }
-        }catch (ConcurrentModificationException e){
-            e.printStackTrace();
+        for(int i = 0; i < gameObjects.size(); i++){
+            gameObjects.get(i).end();
         }
+        gameObjects.clear();
         super.end();
-
         isStarted = false;
+        isRendered = false;
     }
+
 
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
@@ -62,6 +63,9 @@ public abstract class Level extends Renderable{
     public void addGameObject(GameObject gameObject){
         gameObjects.add(gameObject);
         gameObject.setLevel(this);
+        if(isStarted){
+            gameObject.start();
+        }
     }
 
     public void removeGameObject(GameObject gameObject) {

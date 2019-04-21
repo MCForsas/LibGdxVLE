@@ -1,6 +1,7 @@
 package com.mcforsas.game.engine;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import java.util.Random;
 
@@ -192,5 +193,26 @@ public final class Utils {
      */
     public static void warn(String message){
         Gdx.app.log(WARNING_TAG, message);
+    }
+
+    /**
+     * Checks if given coordinates are overlaping sprite
+     * @param sprite
+     * @param x
+     * @param y
+     * @return
+     */
+    public static boolean isOnSprite(Sprite sprite, float x, float y){
+        return sprite.getBoundingRectangle().contains(x,y);
+    }
+
+    /**
+     * Checks if sprites' rectangles collide
+     * @param sprite1
+     * @param sprite2
+     * @return
+     */
+    public static boolean isSpriteCollisionRectangle(Sprite sprite1, Sprite sprite2){
+        return (sprite1.getBoundingRectangle().contains(sprite2.getBoundingRectangle()));
     }
 }

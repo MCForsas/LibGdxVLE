@@ -13,6 +13,8 @@ import com.mcforsas.game.engine.handlers.RenderHandler;
 import com.mcforsas.game.levels.LevelExample;
 import com.mcforsas.game.levels.LevelExample2;
 
+import java.util.NoSuchElementException;
+
 /**
  * @author MCForsas @since 3/16/2019
  * Main game class holds all game constants, main game loop and handlers
@@ -92,7 +94,12 @@ public class Engine extends ApplicationAdapter {
 	private void startGame(){
 		levelHandler.addLevel(new LevelExample());
 		levelHandler.addLevel(new LevelExample2());
-		levelHandler.startFirstLevel();
+		try {
+			levelHandler.startFirstLevel();
+		}catch (NoSuchElementException e){
+			e.printStackTrace();
+		}
+
 	}
 
 	private void loadAssets(){

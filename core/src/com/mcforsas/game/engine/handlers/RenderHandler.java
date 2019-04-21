@@ -83,12 +83,14 @@ public class RenderHandler {
         }
 
         sortedMap.putAll(tempList);
-
         renderables.clear();
 
-        for (Map.Entry<Renderable, Float>entry : sortedMap.entrySet()) {
-            renderables.add(entry.getKey());
+        Vector<Renderable> sortedRenderables = new Vector<Renderable>(sortedMap.keySet());
+        for(int i = 0; i < sortedRenderables.size(); i++){
+            renderables.add(sortedRenderables.get(i));
         }
+
+        renderables = sortedRenderables;
     }
 
     public void resize(int width, int height){
