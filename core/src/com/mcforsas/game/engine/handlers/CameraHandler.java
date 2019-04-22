@@ -1,7 +1,7 @@
 package com.mcforsas.game.engine.handlers;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.mcforsas.game.engine.Utils;
+import com.mcforsas.game.engine.core.Utils;
 
 /**
  * @author MCForsas @since 3/30/2019

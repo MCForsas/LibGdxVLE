@@ -3,8 +3,9 @@ package com.mcforsas.game.levels;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mcforsas.game.engine.Engine;
-import com.mcforsas.game.engine.Level;
+import com.mcforsas.game.GameLauncher;
+import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.gameObjects.GameObjectExample;
 
 /**
@@ -15,8 +16,8 @@ public class LevelExample extends Level {
 
     @Override
     public void start() {
-        setWidth(Engine.WORLD_WIDTH*2);
-        setHeigth(Engine.WORLD_HEIGHT*2);
+        setWidth(getWidth()*2);
+        setHeigth(getHeigth()*2);
         setDepth(100);
 
         addGameObject(new GameObjectExample(0, 1,this));

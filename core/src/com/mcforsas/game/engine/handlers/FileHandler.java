@@ -6,7 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.mcforsas.game.engine.GameData;
+import com.mcforsas.game.engine.core.GameData;
 
 /**
  * @author MCForsas @since 3/25/2019

@@ -3,7 +3,10 @@ package com.mcforsas.game.gameObjects;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mcforsas.game.engine.*;
+import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.core.GameObject;
+import com.mcforsas.game.engine.core.Level;
+import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.CameraHandler;
 
@@ -11,7 +14,7 @@ import com.mcforsas.game.engine.handlers.CameraHandler;
  * @author MCForsas @since 3/16/2019
  * example Game object
  */
-public class GameObjectExample extends GameObject implements InputListener {
+public class GameObjectExample extends GameObject {
 
     private float moveSpeed = .1f;
 
@@ -36,6 +39,7 @@ public class GameObjectExample extends GameObject implements InputListener {
     public void touchDown(float x, float y) {
         if(isOnSprite(x,y)) {
             Engine.getAssetHandler().getSound("sndExample").play();
+            Engine.getLevelHandler().restartLevel();
         }
 
         if(Engine.getInputHandler().isButtonDown(Input.Buttons.RIGHT)){

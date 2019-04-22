@@ -1,4 +1,4 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.core;
 import java.io.Serializable;
 import java.util.HashMap;
 

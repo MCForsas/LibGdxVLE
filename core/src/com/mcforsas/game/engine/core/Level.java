@@ -1,20 +1,19 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.core;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mcforsas.game.GameLauncher;
 
-import java.util.ConcurrentModificationException;
-import java.util.LinkedHashSet;
 import java.util.Vector;
 
 /**
  * @author by MCForsas @since 3/16/2019
  * Level object, holds gameObjects, can be used to draw backgrounds, etc.
  */
-public abstract class Level extends Renderable{
+public abstract class Level extends Renderable implements InputListener{
 
     private Vector<GameObject> gameObjects = new Vector<GameObject>();
     private boolean isStarted = false;
-    protected int width = Engine.WORLD_WIDTH, heigth = Engine.WORLD_HEIGHT;
+    protected float width = GameLauncher.getWorldWidth(), heigth = GameLauncher.getWorldHeight();
 
 
     public void start(){
@@ -72,23 +71,48 @@ public abstract class Level extends Renderable{
         gameObjects.remove(gameObject);
     }
 
+    @Override
+    public void touchDown(float x, float y) {
+
+    }
+
+    @Override
+    public void touchUp(float x, float y) {
+
+    }
+
+    @Override
+    public void keyDown(int keycode) {
+
+    }
+
+    @Override
+    public void keyUp(int keycode) {
+
+    }
+
+    @Override
+    public void mouseMoved(float x, float y) {
+
+    }
+
     public boolean isStarted() {
         return isStarted;
     }
 
-    public int getWidth() {
+    public float getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(float width) {
         this.width = width;
     }
 
-    public int getHeigth() {
+    public float getHeigth() {
         return heigth;
     }
 
-    public void setHeigth(int heigth) {
+    public void setHeigth(float heigth) {
         this.heigth = heigth;
     }
 }

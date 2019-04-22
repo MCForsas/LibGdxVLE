@@ -1,8 +1,8 @@
 package com.mcforsas.game.engine.handlers;
 
-import com.mcforsas.game.engine.Engine;
-import com.mcforsas.game.engine.Level;
-import com.mcforsas.game.engine.Renderable;
+import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.core.Level;
+import com.mcforsas.game.engine.core.Renderable;
 
 import java.util.NoSuchElementException;
 import java.util.Vector;

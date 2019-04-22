@@ -1,17 +1,13 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.core;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.InputHandler;
 import com.mcforsas.game.engine.handlers.LevelHandler;
 import com.mcforsas.game.engine.handlers.RenderHandler;
 import com.mcforsas.game.levels.LevelExample;
-import com.mcforsas.game.levels.LevelExample2;
 
 import java.util.NoSuchElementException;
 
@@ -22,15 +18,23 @@ import java.util.NoSuchElementException;
 
 public class Engine extends ApplicationAdapter {
 	//Constants
-	public static final int WORLD_WIDTH = 16, WORLD_HEIGHT = 9;
+	protected static int FPS;
+	protected static float WORLD_WIDTH, WORLD_HEIGHT;
+	protected static int RESOLUTION_H = 1920, RESOLUTION_V = 1080;
 
 	//Main handlers
-	private static RenderHandler renderHandler;
-	private static LevelHandler levelHandler;
-	private static AssetHandler assetHandler;
-	private static InputHandler inputHandler;
+	protected static RenderHandler renderHandler;
+	protected static LevelHandler levelHandler;
+	protected static AssetHandler assetHandler;
+	protected static InputHandler inputHandler;
 
-	private SpriteBatch spriteBatch;
+	protected SpriteBatch spriteBatch;
+
+	public Engine(){
+		FPS = 60;
+		WORLD_WIDTH = 160;
+		WORLD_HEIGHT = 90;
+	}
 
 	@Override
 	public void create () {
@@ -40,8 +44,6 @@ public class Engine extends ApplicationAdapter {
 		inputHandler = new InputHandler();
 
 		spriteBatch = new SpriteBatch();
-
-		renderHandler.setupDefault();
 		Gdx.input.setInputProcessor(inputHandler);
 
 		Thread assetLoadingThread = new Thread(new QeueuLoader()); //Loads assets on a separate thread
@@ -60,7 +62,7 @@ public class Engine extends ApplicationAdapter {
 	 * Updates game ie: game logic
 	 * @param deltaTime time that passed since last render update.
 	 */
-	private void update(float deltaTime){
+	protected void update(float deltaTime){
 		levelHandler.update(deltaTime);
 	}
 	
@@ -91,25 +93,17 @@ public class Engine extends ApplicationAdapter {
 	/**
 	 * After all the assets are loaded and main object created, start the game - setup default.
 	 */
-	private void startGame(){
+	protected void startGame(){
 		levelHandler.addLevel(new LevelExample());
-		levelHandler.addLevel(new LevelExample2());
 		try {
 			levelHandler.startFirstLevel();
 		}catch (NoSuchElementException e){
 			e.printStackTrace();
 		}
-
 	}
 
-	private void loadAssets(){
-		assetHandler.addToQueue(Texture.class, "sprBadlogic", "badlogic.jpg");
-		assetHandler.addToQueue(Texture.class, "sprExample", "example.jpg");
-		assetHandler.addToQueue(Music.class, "musExample","example.ogg");
-		assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
-
+	protected void loadAssets(){
 		assetHandler.startLoadingQueue();
-
 		startGame();
 	}
 
@@ -131,7 +125,27 @@ public class Engine extends ApplicationAdapter {
 	}
 	//endregion
 
-	private class QeueuLoader implements Runnable {
+	public static int getFPS() {
+		return FPS;
+	}
+
+	public static float getWorldWidth() {
+		return WORLD_WIDTH;
+	}
+
+	public static float getWorldHeight() {
+		return WORLD_HEIGHT;
+	}
+
+	public static int getResolutionH() {
+		return RESOLUTION_H;
+	}
+
+	public static int getResolutionV() {
+		return RESOLUTION_V;
+	}
+
+	private final class QeueuLoader implements Runnable {
 		@Override
 		public void run() {
 			loadAssets();

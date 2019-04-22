@@ -1,4 +1,4 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.core;
 
 /**
  * Created by MCForsas on 3/16/2019

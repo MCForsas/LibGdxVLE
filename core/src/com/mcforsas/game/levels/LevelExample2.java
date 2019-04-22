@@ -3,8 +3,8 @@ package com.mcforsas.game.levels;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mcforsas.game.engine.Engine;
-import com.mcforsas.game.engine.Level;
+import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.core.Level;
 
 /**
  * Created by MCForsas on 3/16/2019
@@ -22,8 +22,8 @@ public class LevelExample2 extends Level {
 
     @Override
     public void start() {
-        setWidth(Engine.WORLD_WIDTH*2);
-        setHeigth(Engine.WORLD_WIDTH*6);
+        setWidth(getWidth()*2);
+        setHeigth(getHeigth()*6);
         setDepth(100);
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprBadlogic"));

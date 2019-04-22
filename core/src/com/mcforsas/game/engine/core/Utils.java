@@ -1,4 +1,4 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;

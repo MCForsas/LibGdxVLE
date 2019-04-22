@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mcforsas.game.engine.Engine;
-import com.mcforsas.game.engine.Level;
-import com.mcforsas.game.engine.Renderable;
-import com.mcforsas.game.engine.Utils;
+import com.mcforsas.game.GameLauncher;
+import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.core.Level;
+import com.mcforsas.game.engine.core.Renderable;
+import com.mcforsas.game.engine.core.Utils;
 
 import java.util.*;
 
@@ -30,8 +31,8 @@ public class RenderHandler {
     private boolean isCameraBounded = true; //Weather camera is allowed to leave the level
 
     //Dimensions of the viewport (Game world dimensions)
-    public final int viewportWidth = Engine.WORLD_WIDTH;
-    public final int viewportHeight = Engine.WORLD_HEIGHT;
+    public final float viewportWidth = GameLauncher.getWorldWidth();
+    public final float viewportHeight = GameLauncher.getWorldHeight();
 
     //Maximum allowed deviation from regular aspect ratio
     public final float maxAspectDeviation = .3f;
@@ -142,8 +143,8 @@ public class RenderHandler {
     private void boundCamera(Camera camera){
         float x = camera.position.x, y = camera.position.y;
 
-        float worldWidth = Engine.WORLD_WIDTH;
-        float worldHeight = Engine.WORLD_HEIGHT;
+        float worldWidth = GameLauncher.getWorldWidth();
+        float worldHeight = GameLauncher.getWorldHeight();
 
         try {
             Level level = Engine.getLevelHandler().getCurrentLevel();

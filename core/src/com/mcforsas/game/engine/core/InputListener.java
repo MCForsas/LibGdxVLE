@@ -1,4 +1,4 @@
-package com.mcforsas.game.engine;
+package com.mcforsas.game.engine.core;
 
 /**
  * @author MCForsas @since 3/16/2019
