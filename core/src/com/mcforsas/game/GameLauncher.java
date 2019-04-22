@@ -2,20 +2,25 @@ package com.mcforsas.game;
 
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.handlers.CameraHandler;
 import com.mcforsas.game.levels.LevelExample;
+import com.sun.org.apache.xpath.internal.operations.Or;
 
 /*
  * Created by mcforsas on 19.4.21
  * Game object. All the config and constants should be set here
  */
 public class GameLauncher extends Engine {
+    private float maxAspectDeviation = .5f;
     //Config here
     public GameLauncher() {
         FPS = 120;
-        WORLD_WIDTH = 10;
-        WORLD_HEIGHT = 10;
+        WORLD_WIDTH = 100;
+        WORLD_HEIGHT = 100;
         RESOLUTION_H = 1080/4;
         RESOLUTION_V = 1920/4;
     }
@@ -23,7 +28,13 @@ public class GameLauncher extends Engine {
     @Override
     public void create() {
         super.create();
-        renderHandler.setupDefault();
+
+        OrthographicCamera cameraHandler = new CameraHandler(.1f,10f);
+        renderHandler.setup(
+                cameraHandler,
+                new ExtendViewport(WORLD_WIDTH/2, WORLD_HEIGHT/2, cameraHandler),
+                maxAspectDeviation
+        );
     }
 
     @Override

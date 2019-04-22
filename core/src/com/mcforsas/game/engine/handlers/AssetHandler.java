@@ -104,7 +104,7 @@ public class AssetHandler {
         }else if (type == BitmapFont.class) {
             loadFont(name, filePath);
         }else {
-            throw new UnknownAssetTypeException();
+            throw new UnknownAssetTypeException("Tried to load an asset which class is not the one listed in asset types");
         }
     }
     //endregion

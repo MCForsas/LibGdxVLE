@@ -11,6 +11,7 @@ import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Renderable;
 import com.mcforsas.game.engine.core.Utils;
+import com.mcforsas.game.engine.exceptions.IncompatibleViewportException;
 
 import java.util.*;
 
@@ -27,37 +28,66 @@ public class RenderHandler {
 
     private Vector<Renderable> renderables = new Vector<Renderable>();//All rendered items
 
-    public final float CAMERA_Z = 0;
+    //Camera positions
+    private float xTo = 0, yTo = 0;
+    public static final float CAMERA_Z = 0;
     private boolean isCameraBounded = true; //Weather camera is allowed to leave the level
 
-    //Dimensions of the viewport (Game world dimensions)
-    public final float viewportWidth = GameLauncher.getWorldWidth();
-    public final float viewportHeight = GameLauncher.getWorldHeight();
-
     //Maximum allowed deviation from regular aspect ratio
-    public final float maxAspectDeviation = .3f;
+    private float maxAspectDeviation = 0;
+
+    //Defaults
+    private static final float DINAMIC_CAMERA_MOVESPEED = 1f;
+    private static final float DINAMIC_CAMERA_MAXRADIUS = 10f;
+
+    public void setup(Camera camera, Viewport viewport){
+        addCemera(camera);
+        setCurrentCamera(camera);
+
+        addViewport(viewport);
+        setCurrentViewport(viewport);
+    }
 
     /**
      * Setup default renderer defaults: Ortographic camera, ExtendViewPort and position camera in
      * the center
      */
     public void setupDefault(){
-        currentCamera = new CameraHandler(.1f, 6);
-        addCemera(currentCamera);
-
-        currentViewport = new ExtendViewport(viewportWidth, viewportHeight,currentCamera);
-        setViewportMaxDimensions(
-                viewportWidth * (1 + maxAspectDeviation),
-                viewportHeight * (1 + maxAspectDeviation)
+        setup(
+                new CameraHandler(DINAMIC_CAMERA_MOVESPEED, DINAMIC_CAMERA_MAXRADIUS),
+                new ExtendViewport(
+                        GameLauncher.getWorldWidth(), GameLauncher.getWorldHeight(),
+                        currentCamera)
         );
         addViewport(currentViewport);
+
     }
 
-    public void render(SpriteBatch sb, float deltaTime){
-        Gdx.gl.glClearColor(0,.06f,.02f,1); //Set background color
+    public void setup(Camera camera, ExtendViewport viewport, float maxAspectDeviation){
+        setup(camera, viewport);
+        setMaxAspectDeviation(maxAspectDeviation);
+
+        setViewportMaxDimensions(
+                currentViewport.getWorldWidth() * (1 + maxAspectDeviation),
+                currentViewport.getWorldHeight() * (1 + maxAspectDeviation)
+        );
+    }
+
+
+
+    public void render(SpriteBatch sb, float deltaTime) {
+        Gdx.gl.glClearColor(0, .06f, .02f, 1); //Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        boundCamera(currentCamera);
+        if (currentCamera instanceof CameraHandler) {
+            ((CameraHandler) currentCamera).updatePosition(xTo, yTo, deltaTime);
+        }else{
+            currentCamera.position.set(xTo, yTo, CAMERA_Z);
+        }
+
+        if (isCameraBounded){
+            boundCamera(currentCamera);
+        }
         currentCamera.update();
         currentViewport.apply();
 
@@ -97,17 +127,41 @@ public class RenderHandler {
     public void resize(int width, int height){
         currentViewport.update(width, height);
     }
-
-    public void addRenderable(Renderable renderable){
-        renderables.add(renderable);
-        refreshRenderOrder();
-    }
-
-    public void removeRenderable(Renderable renderable){
-        renderables.remove(renderable);
-    }
-
     //region <Camera>
+
+    private void boundCamera(Camera camera){
+
+        float worldWidth = GameLauncher.getWorldWidth();
+        float worldHeight = GameLauncher.getWorldHeight();
+
+        try {
+            Level level = GameLauncher.getLevelHandler().getCurrentLevel();
+            worldWidth = level.getWidth();
+            worldHeight = level.getHeigth();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+
+            camera.position.x = Utils.clamp(
+                    camera.position.x,
+                    (camera.viewportWidth/2),
+                    (worldWidth - camera.viewportWidth/2)
+            );
+
+            camera.position.y = Utils.clamp(
+                    camera.position.y,
+                    camera.viewportHeight/2,
+                    (worldHeight - camera.viewportHeight/2)
+            );
+
+            //To avoid shaky screen position camera in the center if viewport dimensions are bigger than worlds.
+            if(currentViewport.getWorldWidth() >= worldWidth || currentViewport.getWorldHeight() >= worldHeight){
+                camera.position.x = worldWidth/2;
+                camera.position.y = worldHeight/2;
+            }
+    }
+    //endregion
+
     public Camera getCamera() {
         return currentCamera;
     }
@@ -124,53 +178,15 @@ public class RenderHandler {
         cameras.remove(camera);
     }
 
-    public void setCameraPosition(Camera camera, float x, float y){
-        camera.position.set(x,y,CAMERA_Z);
-    }
-
     public void setCameraPosition(float x, float y){
-        setCameraPosition(currentCamera, x, y);
+        xTo = x;
+        yTo = y;
     }
 
     public void translateCamera(float deltaX, float deltaY){
-        translateCamera(currentCamera, deltaX, deltaY);
+        xTo += deltaX;
+        yTo += deltaY;
     }
-
-    public void translateCamera(Camera camera, float deltaX, float deltaY){
-        camera.translate(deltaX,deltaY,CAMERA_Z);
-    }
-
-    private void boundCamera(Camera camera){
-        float x = camera.position.x, y = camera.position.y;
-
-        float worldWidth = GameLauncher.getWorldWidth();
-        float worldHeight = GameLauncher.getWorldHeight();
-
-        try {
-            Level level = GameLauncher.getLevelHandler().getCurrentLevel();
-            worldWidth = level.getWidth();
-            worldHeight = level.getHeigth();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-
-        if(isCameraBounded) {
-            x = Utils.clamp(
-                    camera.position.x,
-                    (camera.viewportWidth/2),
-                    (worldWidth - camera.viewportWidth/2)
-            );
-
-            y = Utils.clamp(
-                    camera.position.y,
-                    camera.viewportHeight/2,
-                    (worldHeight - camera.viewportHeight/2)
-            );
-        }
-
-        camera.position.set(x,y, CAMERA_Z);
-    }
-    //endregion
 
     //region <Viewport>
     public void addViewport(Viewport viewport){
@@ -187,29 +203,35 @@ public class RenderHandler {
      * @param width size in px
      * @param height size in px
      */
-    private void setViewportMaxDimensions(Viewport viewport, float width, float height){
-        width = Utils.clamp(
-                width,
-                ((ExtendViewport)viewport).getMinWorldWidth(),
-                width
-        );
-
-        height = Utils.clamp(
-                height,
-                ((ExtendViewport)viewport).getMinWorldHeight(),
-                height
-        );
-
-        ((ExtendViewport) viewport).setMaxWorldWidth(width);
-        ((ExtendViewport) viewport).setMaxWorldHeight(height);
+    private void setViewportMaxDimensions(Viewport viewport, float width, float height) throws IncompatibleViewportException{
+        if(viewport.getClass() == ExtendViewport.class){
+            ((ExtendViewport) viewport).setMaxWorldWidth(width);
+            ((ExtendViewport) viewport).setMaxWorldHeight(height);
+        }else{
+            throw new IncompatibleViewportException("Tried to set max world dimension's for viewport which is not an ExtendViewport");
+        }
     }
 
     public void setViewportMaxDimensions(float width, float height) {
-        setViewportMaxDimensions(currentViewport, width, height);
+        try {
+            setViewportMaxDimensions(currentViewport, width, height);
+        }catch (IncompatibleViewportException e){
+            e.printStackTrace();
+        }
+
     }
     //endregion
 
     //region <Getters and setters>
+    public void addRenderable(Renderable renderable){
+        renderables.add(renderable);
+        refreshRenderOrder();
+    }
+
+    public void removeRenderable(Renderable renderable){
+        renderables.remove(renderable);
+    }
+
     public boolean isCameraBounded() {
         return isCameraBounded;
     }
@@ -232,6 +254,14 @@ public class RenderHandler {
 
     public void setCurrentCamera(Camera currentCamera) {
         this.currentCamera = currentCamera;
+    }
+
+    public float getMaxAspectDeviation() {
+        return maxAspectDeviation;
+    }
+
+    public void setMaxAspectDeviation(float maxAspectDeviation) {
+        this.maxAspectDeviation = maxAspectDeviation;
     }
 
     //endregion

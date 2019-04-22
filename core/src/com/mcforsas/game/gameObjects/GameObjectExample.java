@@ -9,6 +9,7 @@ import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Utils;
 import com.mcforsas.game.engine.handlers.AssetHandler;
 import com.mcforsas.game.engine.handlers.CameraHandler;
+import com.mcforsas.game.engine.handlers.RenderHandler;
 
 /**
  * @author MCForsas @since 3/16/2019
@@ -16,14 +17,14 @@ import com.mcforsas.game.engine.handlers.CameraHandler;
  */
 public class GameObjectExample extends GameObject {
 
-    private float moveSpeed = .1f;
+    private float moveSpeed = .2f;
 
     public GameObjectExample(float x, float depth, Level level){
         sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
         this.x = x;
         this.y = x;
         sprite.setPosition(x,y);
-        sprite.setBounds(x,y,level.getHeigth()/4,level.getHeigth()/4);
+        sprite.setBounds(x,y,10,10);
 
         setDepth(depth);
 
@@ -69,8 +70,7 @@ public class GameObjectExample extends GameObject {
         sprite.setPosition(x,y);
 
         super.update(deltaTime);
-        CameraHandler camera = (CameraHandler) GameLauncher.getRenderHandler().getCurrentCamera();
-        camera.updatePosition(x,y,deltaTime);
+        GameLauncher.getRenderHandler().setCameraPosition(x,y);
     }
 
     @Override

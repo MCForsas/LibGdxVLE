@@ -24,12 +24,16 @@ public class CameraHandler extends OrthographicCamera {
         this.maxRadius = maxRadius;
     }
 
+    @Override
+    public void update() {
+        super.update();
+    }
 
     public void updatePosition(float xTo, float yTo, float deltaTime){
         this.xTo = xTo;
         this.yTo = yTo;
 
-        float ms = (float) (moveSpeed * (Math.hypot(xTo, position.x) + Math.hypot(yTo, position.y))/2);
+        float ms = moveSpeed * Math.abs((xTo - position.x) + (yTo - position.y)/2);
 
         if(isDinamic){
             position.x += Utils.lerp(position.x, xTo, ms) * deltaTime;
