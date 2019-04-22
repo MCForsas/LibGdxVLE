@@ -3,6 +3,7 @@ package com.mcforsas.game.engine.handlers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector3;
+import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.InputListener;
 
@@ -36,7 +37,7 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 worldCoordinates =
-                Engine.getRenderHandler().
+                GameLauncher.getRenderHandler().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
         for(int i = 0; i < listeners.size(); i++){
@@ -48,7 +49,7 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         Vector3 worldCoordinates =
-                Engine.getRenderHandler().
+                GameLauncher.getRenderHandler().
                         getCamera().
                         unproject(new Vector3(screenX, screenY, 0));
         for(int i = 0; i < listeners.size(); i++){

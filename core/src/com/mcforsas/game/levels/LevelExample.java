@@ -16,8 +16,6 @@ public class LevelExample extends Level {
 
     @Override
     public void start() {
-        setWidth(getWidth()*2);
-        setHeigth(getHeigth()*2);
         setDepth(100);
 
         addGameObject(new GameObjectExample(0, 1,this));

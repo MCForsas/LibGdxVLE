@@ -13,11 +13,11 @@ import com.mcforsas.game.levels.LevelExample;
 public class GameLauncher extends Engine {
     //Config here
     public GameLauncher() {
-//        FPS = 120;
-//        WORLD_WIDTH = 10;
-//        WORLD_HEIGHT = 10;
-//        RESOLUTION_H = 1080/4;
-//        RESOLUTION_V = 1920/4;
+        FPS = 120;
+        WORLD_WIDTH = 10;
+        WORLD_HEIGHT = 10;
+        RESOLUTION_H = 1080/4;
+        RESOLUTION_V = 1920/4;
     }
 
     @Override

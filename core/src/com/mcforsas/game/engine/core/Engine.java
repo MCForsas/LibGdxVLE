@@ -20,7 +20,7 @@ public class Engine extends ApplicationAdapter {
 	//Constants
 	protected static int FPS;
 	protected static float WORLD_WIDTH, WORLD_HEIGHT;
-	protected static int RESOLUTION_H = 1920, RESOLUTION_V = 1080;
+	protected static int RESOLUTION_H = 1280, RESOLUTION_V = 720;
 
 	//Main handlers
 	protected static RenderHandler renderHandler;
@@ -32,8 +32,8 @@ public class Engine extends ApplicationAdapter {
 
 	public Engine(){
 		FPS = 60;
-		WORLD_WIDTH = 160;
-		WORLD_HEIGHT = 90;
+		WORLD_WIDTH = 320;
+		WORLD_HEIGHT = 180;
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 package com.mcforsas.game.gameObjects;
-
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.GameObject;
 import com.mcforsas.game.engine.core.Level;
@@ -37,8 +37,8 @@ public class GameObjectExample extends GameObject {
 
     @Override
     public void touchDown(float x, float y) {
-        if(isOnSprite(x,y)) {
-            Engine.getAssetHandler().getSound("sndExample").play();
+        if(Utils.isOnSprite(sprite,x,y)) {
+            GameLauncher.getAssetHandler().getSound("sndExample").play();
             Engine.getLevelHandler().restartLevel();
         }
 
@@ -50,16 +50,16 @@ public class GameObjectExample extends GameObject {
 
     @Override
     public void update(float deltaTime) {
-        if(Engine.getInputHandler().isKeyDown(Input.Keys.W)){
+        if(GameLauncher.getInputHandler().isKeyDown(Input.Keys.W)){
             y += moveSpeed * deltaTime * 100;
         }
-        if(Engine.getInputHandler().isKeyDown(Input.Keys.S)){
+        if(GameLauncher.getInputHandler().isKeyDown(Input.Keys.S)){
             y -= moveSpeed * deltaTime * 100;
         }
-        if(Engine.getInputHandler().isKeyDown(Input.Keys.A)){
+        if(GameLauncher.getInputHandler().isKeyDown(Input.Keys.A)){
             x -= moveSpeed * deltaTime * 100;
         }
-        if(Engine.getInputHandler().isKeyDown(Input.Keys.D)){
+        if(GameLauncher.getInputHandler().isKeyDown(Input.Keys.D)){
             x += moveSpeed * deltaTime * 100;
         }
 
@@ -69,7 +69,7 @@ public class GameObjectExample extends GameObject {
         sprite.setPosition(x,y);
 
         super.update(deltaTime);
-        CameraHandler camera = (CameraHandler) Engine.getRenderHandler().getCurrentCamera();
+        CameraHandler camera = (CameraHandler) GameLauncher.getRenderHandler().getCurrentCamera();
         camera.updatePosition(x,y,deltaTime);
     }
 

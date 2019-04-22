@@ -147,7 +147,7 @@ public class RenderHandler {
         float worldHeight = GameLauncher.getWorldHeight();
 
         try {
-            Level level = Engine.getLevelHandler().getCurrentLevel();
+            Level level = GameLauncher.getLevelHandler().getCurrentLevel();
             worldWidth = level.getWidth();
             worldHeight = level.getHeigth();
         }catch (NullPointerException e){

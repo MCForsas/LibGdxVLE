@@ -9,7 +9,7 @@ import java.util.Vector;
  * @author by MCForsas @since 3/16/2019
  * Level object, holds gameObjects, can be used to draw backgrounds, etc.
  */
-public abstract class Level extends Renderable implements InputListener{
+public abstract class Level extends Renderable{
 
     private Vector<GameObject> gameObjects = new Vector<GameObject>();
     private boolean isStarted = false;

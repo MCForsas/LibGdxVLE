@@ -1,5 +1,6 @@
 package com.mcforsas.game.engine.handlers;
 
+import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Renderable;
@@ -111,8 +112,8 @@ public class LevelHandler extends Renderable {
     }
 
     public void removeLevel(Level level) {
+        level.end();
         levels.remove(level);
-        Engine.getRenderHandler().removeRenderable(level);
     }
 
     public void startFirstLevel() throws NoSuchElementException {

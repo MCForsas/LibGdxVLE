@@ -1,5 +1,7 @@
 package com.mcforsas.game.engine.core;
 
+import com.mcforsas.game.GameLauncher;
+
 /**
  * @author MCForsas @since 3/22/2019
  * Holds main entitie lifecycle methods
@@ -24,12 +26,10 @@ public abstract class Entitie implements InputListener {
      * End all game logic. Remove all dependencies.
      */
     public void end(){
-        if(this instanceof InputListener){
-            try {
-                Engine.getInputHandler().removeInputListener((InputListener) this);
-            }catch (NullPointerException e){
-                e.printStackTrace();
-            }
+        try {
+            GameLauncher.getInputHandler().removeInputListener((InputListener) this);
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
     }
 

@@ -2,6 +2,7 @@ package com.mcforsas.game.engine.core;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mcforsas.game.GameLauncher;
 
 /**
  * @author MCForsas @since 3/16/2019
@@ -36,31 +37,11 @@ public abstract class Renderable extends Entitie {
         }
     }
 
-    /**
-     * Checks if coordinates are on sprite
-     * @param x
-     * @param y
-     */
-    public boolean isOnSprite(float x, float y){
-        try {
-            if(
-                    Utils.isInRange(x, sprite.getX(), sprite.getX() + sprite.getWidth()) &&
-                            Utils.isInRange(y, sprite.getY(), sprite.getY() + sprite.getHeight())
-            ){
-                return true;
-            }
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
     @Override
     public void end() {
         super.end();
         isRendered = false;
-        Engine.getRenderHandler().removeRenderable(this);
+        GameLauncher.getRenderHandler().removeRenderable(this);
     }
 
     //region <Getters and setters>
@@ -70,14 +51,13 @@ public abstract class Renderable extends Entitie {
     }
 
     public void setDepth(float depth) {
-        if(depth != this.depth) {
+        if(depth != this.depth) { //Do not update depth if it's the same, so refreshing render order wont be called
             this.depth = depth;
-        }
-
-        try {
-            Engine.getRenderHandler().refreshRenderOrder();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+            try {
+                GameLauncher.getRenderHandler().refreshRenderOrder();
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -120,7 +100,5 @@ public abstract class Renderable extends Entitie {
     public void setRendered(boolean rendered) {
         isRendered = rendered;
     }
-
-
     //endregion
 }
