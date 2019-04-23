@@ -17,14 +17,14 @@ import com.mcforsas.game.engine.handlers.RenderHandler;
  */
 public class GameObjectExample extends GameObject {
 
-    private float moveSpeed = .2f;
+    private float moveSpeed = 2f;
 
     public GameObjectExample(float x, float depth, Level level){
         sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
         this.x = x;
         this.y = x;
         sprite.setPosition(x,y);
-        sprite.setBounds(x,y,10,10);
+        sprite.setBounds(x,y,20,20);
 
         setDepth(depth);
 

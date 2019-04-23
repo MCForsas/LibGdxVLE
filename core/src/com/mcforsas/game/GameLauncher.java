@@ -19,8 +19,8 @@ public class GameLauncher extends Engine {
     //Config here
     public GameLauncher() {
         FPS = 120;
-        WORLD_WIDTH = 100;
-        WORLD_HEIGHT = 100;
+        WORLD_WIDTH = 1000;
+        WORLD_HEIGHT = 1000;
         RESOLUTION_H = 1080/4;
         RESOLUTION_V = 1920/4;
     }
@@ -29,10 +29,10 @@ public class GameLauncher extends Engine {
     public void create() {
         super.create();
 
-        OrthographicCamera cameraHandler = new CameraHandler(.1f,10f);
+        OrthographicCamera cameraHandler = new CameraHandler(.1f,50f);
         renderHandler.setup(
                 cameraHandler,
-                new ExtendViewport(WORLD_WIDTH/2, WORLD_HEIGHT/2, cameraHandler),
+                new ExtendViewport(WORLD_WIDTH/8, WORLD_HEIGHT/8, cameraHandler),
                 maxAspectDeviation
         );
     }
