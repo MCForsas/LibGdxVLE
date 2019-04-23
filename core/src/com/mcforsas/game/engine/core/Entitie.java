@@ -27,10 +27,17 @@ public abstract class Entitie implements InputListener {
      */
     public void end(){
         try {
-            GameLauncher.getInputHandler().removeInputListener((InputListener) this);
+            GameLauncher.getInputHandler().removeInputListener(this);
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Called on application close;
+     */
+    public void dispose(){
+
     }
 
     @Override

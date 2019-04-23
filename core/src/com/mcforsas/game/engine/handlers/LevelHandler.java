@@ -2,6 +2,7 @@ package com.mcforsas.game.engine.handlers;
 
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
+import com.mcforsas.game.engine.core.GameData;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Renderable;
 
@@ -56,8 +57,13 @@ public class LevelHandler extends Renderable {
         endLevel(currentLevel);
     }
 
+    /**
+     * Dispose all the objects in level
+     */
     public void dispose() {
-        dispose(currentLevel);
+        for(int i = 0; i < levels.size(); i++){
+            levels.get(i).dispose();
+        }
     }
 
     public void dispose(Level level) {
@@ -66,7 +72,12 @@ public class LevelHandler extends Renderable {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+    }
 
+    public void save(FileHandler fileHandler, GameData gameData){
+        for(int i = 0; i < levels.size(); i++){
+            levels.get(i).save(fileHandler, gameData);
+        }
     }
 
     /**

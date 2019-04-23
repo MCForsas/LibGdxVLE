@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.handlers.CameraHandler;
+import com.mcforsas.game.engine.handlers.FileHandler;
 import com.mcforsas.game.levels.LevelExample;
 import com.sun.org.apache.xpath.internal.operations.Or;
 
@@ -35,6 +36,10 @@ public class GameLauncher extends Engine {
                 new ExtendViewport(WORLD_WIDTH/8, WORLD_HEIGHT/8, cameraHandler),
                 maxAspectDeviation
         );
+
+        fileHandler = new FileHandler("save.sav",false);
+        gameData = fileHandler.load();
+
     }
 
     @Override

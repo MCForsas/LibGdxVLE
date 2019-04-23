@@ -1,15 +1,12 @@
 package com.mcforsas.game.gameObjects;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
-import com.mcforsas.game.engine.core.Engine;
-import com.mcforsas.game.engine.core.GameObject;
-import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.engine.core.Utils;
+import com.mcforsas.game.engine.core.*;
 import com.mcforsas.game.engine.handlers.AssetHandler;
-import com.mcforsas.game.engine.handlers.CameraHandler;
-import com.mcforsas.game.engine.handlers.RenderHandler;
+import com.mcforsas.game.engine.handlers.FileHandler;
 
 /**
  * @author MCForsas @since 3/16/2019
@@ -21,8 +18,8 @@ public class GameObjectExample extends GameObject {
 
     public GameObjectExample(float x, float depth, Level level){
         sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
-        this.x = x;
-        this.y = x;
+        this.x = (Float) GameLauncher.getFileHandler().getPreferences("GOBx",Float.class, x);
+        this.y = (Float) GameLauncher.getFileHandler().getPreferences("GOBy",Float.class, x);
         sprite.setPosition(x,y);
         sprite.setBounds(x,y,20,20);
 
@@ -34,19 +31,6 @@ public class GameObjectExample extends GameObject {
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
-    }
-
-    @Override
-    public void touchDown(float x, float y) {
-        if(Utils.isOnSprite(sprite,x,y)) {
-            GameLauncher.getAssetHandler().getSound("sndExample").play();
-            Engine.getLevelHandler().restartLevel();
-        }
-
-        if(Engine.getInputHandler().isButtonDown(Input.Buttons.RIGHT)){
-            this.x = x;
-            this.y = y;
-        }
     }
 
     @Override
@@ -71,6 +55,25 @@ public class GameObjectExample extends GameObject {
 
         super.update(deltaTime);
         GameLauncher.getRenderHandler().setCameraPosition(x,y);
+    }
+
+    @Override
+    public void save(FileHandler fileHandler, GameData gameData) {
+        fileHandler.putPreferences("GOBx",x);
+        fileHandler.putPreferences("GOBy",y);
+    }
+
+    @Override
+    public void touchDown(float x, float y) {
+        if(Utils.isOnSprite(sprite,x,y)) {
+            GameLauncher.getAssetHandler().getSound("sndExample").play();
+            Engine.getLevelHandler().restartLevel();
+        }
+
+        if(Engine.getInputHandler().isButtonDown(Input.Buttons.RIGHT)){
+            this.x = x;
+            this.y = y;
+        }
     }
 
     @Override

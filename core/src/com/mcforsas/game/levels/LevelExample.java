@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
+import com.mcforsas.game.engine.handlers.FileHandler;
 import com.mcforsas.game.gameObjects.GameObjectExample;
 
 /**
@@ -37,11 +38,23 @@ public class LevelExample extends Level {
         if(Engine.getInputHandler().isKeyDown(Input.Keys.N)){
             Engine.getLevelHandler().nextLevel();
         }
+
+        if(Engine.getInputHandler().isKeyDown(Input.Keys.P)){
+            Engine.getLevelHandler().previousLevel();
+        }
     }
 
 
     @Override
     public void render(SpriteBatch spriteBatch, float deltaTime) {
         super.render(spriteBatch, deltaTime);
+    }
+
+
+
+    @Override
+    public void dispose() {
+        save(GameLauncher.getFileHandler(), GameLauncher.getGameData());
+        super.dispose();
     }
 }

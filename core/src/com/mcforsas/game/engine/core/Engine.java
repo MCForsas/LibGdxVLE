@@ -3,10 +3,7 @@ package com.mcforsas.game.engine.core;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mcforsas.game.engine.handlers.AssetHandler;
-import com.mcforsas.game.engine.handlers.InputHandler;
-import com.mcforsas.game.engine.handlers.LevelHandler;
-import com.mcforsas.game.engine.handlers.RenderHandler;
+import com.mcforsas.game.engine.handlers.*;
 import com.mcforsas.game.levels.LevelExample;
 
 import java.util.NoSuchElementException;
@@ -27,6 +24,8 @@ public class Engine extends ApplicationAdapter {
 	protected static LevelHandler levelHandler;
 	protected static AssetHandler assetHandler;
 	protected static InputHandler inputHandler;
+	protected static GameData gameData;
+	protected static FileHandler fileHandler;
 
 	protected SpriteBatch spriteBatch;
 
@@ -42,6 +41,7 @@ public class Engine extends ApplicationAdapter {
 		levelHandler = new LevelHandler();
 		assetHandler = new AssetHandler();
 		inputHandler = new InputHandler();
+		gameData = new GameData();
 
 		spriteBatch = new SpriteBatch();
 		Gdx.input.setInputProcessor(inputHandler);
@@ -68,8 +68,9 @@ public class Engine extends ApplicationAdapter {
 	
 	@Override
 	public void dispose () {
-		assetHandler.dispose();
 		levelHandler.dispose();
+		assetHandler.dispose();
+		fileHandler.dispose();
 	}
 
 	@Override
@@ -89,6 +90,8 @@ public class Engine extends ApplicationAdapter {
 		super.resume();
 		levelHandler.setPaused(false);
 	}
+
+
 
 	/**
 	 * After all the assets are loaded and main object created, start the game - setup default.
@@ -123,6 +126,15 @@ public class Engine extends ApplicationAdapter {
 	public static InputHandler getInputHandler() {
 		return inputHandler;
 	}
+
+	public static GameData getGameData() {
+		return gameData;
+	}
+
+	public static FileHandler getFileHandler() {
+		return fileHandler;
+	}
+
 	//endregion
 
 	public static int getFPS() {
@@ -144,6 +156,7 @@ public class Engine extends ApplicationAdapter {
 	public static int getResolutionV() {
 		return RESOLUTION_V;
 	}
+
 
 	private final class QeueuLoader implements Runnable {
 		@Override

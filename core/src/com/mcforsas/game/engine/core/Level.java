@@ -2,6 +2,7 @@ package com.mcforsas.game.engine.core;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
+import com.mcforsas.game.engine.handlers.FileHandler;
 
 import java.util.Vector;
 
@@ -48,6 +49,12 @@ public abstract class Level extends Renderable{
         super.end();
         isStarted = false;
         isRendered = false;
+    }
+
+    public void save(FileHandler fileHandler, GameData gameData){
+        for(int i = 0; i < gameObjects.size(); i++){
+            gameObjects.get(i).save(fileHandler, gameData);
+        }
     }
 
 

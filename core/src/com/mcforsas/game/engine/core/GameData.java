@@ -6,7 +6,7 @@ import java.util.HashMap;
  * @author MCForsas @since 3/25/2019
  * Saves any game variables that should be saved by key -> pair.
  */
-public class GameData implements Serializable {
+public class GameData{
     private static final long serialVersionUID = 1;
 
     private HashMap<String, Object> gameData; //All of the game data;

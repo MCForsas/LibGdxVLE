@@ -1,5 +1,7 @@
 package com.mcforsas.game.engine.core;
 
+import com.mcforsas.game.engine.handlers.FileHandler;
+
 /**
  * Created by MCForsas on 3/16/2019
  * Game object. Can be used with game logic and so on.
@@ -12,7 +14,13 @@ public abstract class GameObject extends Renderable{
         super.update();
     }
 
-    public void dispose(){
+    /**
+     * Called on game save. Object should save all of it's details for later use;
+     * @param fileHandler
+     * @param gameData
+     */
+    public void save(FileHandler fileHandler, GameData gameData){
+
     }
 
     public Level getLevel() {

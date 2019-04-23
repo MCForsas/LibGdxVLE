@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Base64Coder;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.mcforsas.game.engine.core.GameData;
@@ -30,9 +31,10 @@ public class FileHandler {
         this.fileName = fileName;
         this.isEncoded = isEncoded;
 
-        fileHandle = Gdx.files.local(FILE_PATH + fileName);
-        json = new Json(JsonWriter.OutputType.json);
-        preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
+        this.fileHandle = Gdx.files.local(FILE_PATH + fileName);
+
+        this.json = new Json(JsonWriter.OutputType.json);
+        this.preferences = Gdx.app.getPreferences(PREFERENCES_NAME);
     }
 
     /**
@@ -59,7 +61,17 @@ public class FileHandler {
      */
     public GameData load(){
         GameData data = null;
-        String readString = fileHandle.readString();
+        String readString = "";
+
+        try{
+            readString = fileHandle.readString();
+        }catch (GdxRuntimeException e){
+            e.printStackTrace();
+            data = new GameData();
+            fileHandle.write(true);
+            return data;
+        }
+
         if(isEncoded){
             try {
                 readString = Base64Coder.decodeString(readString);
@@ -76,6 +88,10 @@ public class FileHandler {
         }
 
         return data;
+    }
+
+    public void dispose(){
+        preferences.flush();
     }
 
     //region <Preferences>
@@ -98,29 +114,31 @@ public class FileHandler {
         }else if(value instanceof Long){
             putPreferencesLong(key, (Long) value);
         }else {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Unknown type of: " + value.getClass());
         }
     }
 
     /**
-     * Gets preferences from preference file. If none are found, null is returned
+     * Gets preferences from preference file. If none are found, default data is returned
      * @param key
      * @param type of data
+     * @param defaultValue default data
      * @return
      */
-    public Object getPreferences(String key, Class type){
+    public Object getPreferences(String key, Class type, Object defaultValue){
+        Object data = null;
         if(type == String.class){
-            return getPrefrencesString(key);
+            data =  getPrefrencesString(key);
         }else if(type == Boolean.class){
-            return getPrefrencesBoolean(key);
+            data = getPrefrencesBoolean(key);
         }else if(type == Integer.class){
-            return getPreferencesInt(key);
+            data = getPreferencesInt(key);
         }else if(type == Float.class){
-            return getPrefrencesFloat(key);
+            data = getPrefrencesFloat(key);
         }else if(type == Long.class){
-            return getPrefrencesLong(key);
+            data = getPrefrencesLong(key);
         }
-        return null;
+        return (data != null ? data : defaultValue);
     }
 
     public void putPreferencesString(String key, String value) {
