@@ -91,13 +91,10 @@ public class Engine extends ApplicationAdapter {
 		levelHandler.setPaused(false);
 	}
 
-
-
 	/**
 	 * After all the assets are loaded and main object created, start the game - setup default.
 	 */
 	protected void startGame(){
-		levelHandler.addLevel(new LevelExample());
 		try {
 			levelHandler.startFirstLevel();
 		}catch (NoSuchElementException e){

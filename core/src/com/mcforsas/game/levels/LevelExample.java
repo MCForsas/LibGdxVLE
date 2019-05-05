@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.engine.handlers.FileHandler;
 import com.mcforsas.game.gameObjects.GameObjectExample;
 
 /**

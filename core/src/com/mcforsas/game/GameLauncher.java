@@ -22,8 +22,8 @@ public class GameLauncher extends Engine {
         FPS = 120;
         WORLD_WIDTH = 1000;
         WORLD_HEIGHT = 1000;
-        RESOLUTION_H = 1080/4;
-        RESOLUTION_V = 1920/4;
+        RESOLUTION_H = 1920/4;
+        RESOLUTION_V = 1080/4;
     }
 
     @Override
