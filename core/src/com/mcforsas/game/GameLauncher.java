@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.handlers.CameraHandler;
 import com.mcforsas.game.engine.handlers.FileHandler;
-import com.mcforsas.game.levels.LevelExample;
-import com.sun.org.apache.xpath.internal.operations.Or;
+import com.mcforsas.game.levels.LVLExample;
+import com.mcforsas.game.levels.LVLExample2;
 
 /*
  * Created by mcforsas on 19.4.21
@@ -44,7 +44,8 @@ public class GameLauncher extends Engine {
 
     @Override
     protected void startGame() {
-        levelHandler.addLevel(new LevelExample());
+        levelHandler.addLevel(new LVLExample());
+        levelHandler.addLevel(new LVLExample2());
         super.startGame();
     }
 

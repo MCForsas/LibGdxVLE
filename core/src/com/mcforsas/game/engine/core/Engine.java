@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.engine.handlers.*;
-import com.mcforsas.game.levels.LevelExample;
 
 import java.util.NoSuchElementException;
 

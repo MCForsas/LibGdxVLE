@@ -10,7 +10,7 @@ import com.mcforsas.game.engine.core.Level;
  * Created by MCForsas on 3/16/2019
  * Example level to use
  */
-public class LevelExample2 extends Level {
+public class LVLExample2 extends Level {
 
     @Override
     public void update(float deltaTime) {

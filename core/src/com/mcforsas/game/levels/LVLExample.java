@@ -6,19 +6,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mcforsas.game.GameLauncher;
 import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.gameObjects.GameObjectExample;
+import com.mcforsas.game.gameObjects.GOExample;
 
 /**
  * @author MCForsas @since 3/16/2019
  * Example level to use
  */
-public class LevelExample extends Level {
+public class LVLExample extends Level {
 
     @Override
     public void start() {
         setDepth(100);
 
-        addGameObject(new GameObjectExample(0, 1,this));
+        addGameObject(new GOExample(0, 1,this));
 
         sprite = new Sprite(Engine.getAssetHandler().getTexture("sprExample"));
         sprite.setPosition(0,0);
@@ -36,10 +36,6 @@ public class LevelExample extends Level {
         super.update(deltaTime);
         if(Engine.getInputHandler().isKeyDown(Input.Keys.N)){
             Engine.getLevelHandler().nextLevel();
-        }
-
-        if(Engine.getInputHandler().isKeyDown(Input.Keys.P)){
-            Engine.getLevelHandler().previousLevel();
         }
     }
 

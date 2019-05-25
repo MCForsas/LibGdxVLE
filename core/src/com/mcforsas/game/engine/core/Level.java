@@ -12,8 +12,8 @@ import java.util.Vector;
  */
 public abstract class Level extends Renderable{
 
-    private Vector<GameObject> gameObjects = new Vector<GameObject>();
-    private boolean isStarted = false;
+    protected Vector<GameObject> gameObjects = new Vector<GameObject>();
+    protected boolean isStarted = false;
     protected float width = GameLauncher.getWorldWidth(), heigth = GameLauncher.getWorldHeight();
 
 
@@ -45,6 +45,7 @@ public abstract class Level extends Renderable{
         for(int i = 0; i < gameObjects.size(); i++){
             gameObjects.get(i).end();
         }
+
         gameObjects.clear();
         super.end();
         isStarted = false;

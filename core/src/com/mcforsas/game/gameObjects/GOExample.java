@@ -12,11 +12,11 @@ import com.mcforsas.game.engine.handlers.FileHandler;
  * @author MCForsas @since 3/16/2019
  * example Game object
  */
-public class GameObjectExample extends GameObject {
+public class GOExample extends GameObject {
 
     private float moveSpeed = 2f;
 
-    public GameObjectExample(float x, float depth, Level level){
+    public GOExample(float x, float depth, Level level){
         sprite = new Sprite(AssetHandler.getTexture("sprBadlogic"));
         this.x = (Float) GameLauncher.getFileHandler().getPreferences("GOBx",Float.class, x);
         this.y = (Float) GameLauncher.getFileHandler().getPreferences("GOBy",Float.class, x);
