@@ -25,5 +25,11 @@ public interface InputListener {
      */
     void keyUp(final int keycode);
 
+    void touchDragged(final float x, final float y);
+    /**
+     * Called when mouse is moved over the screen. Passes mouse coordinates
+     * @param x
+     * @param y
+     */
     void mouseMoved(final float x, final float y);
 }

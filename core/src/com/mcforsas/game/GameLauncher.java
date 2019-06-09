@@ -30,15 +30,10 @@ public class GameLauncher extends Engine {
     public void create() {
         super.create();
 
-        OrthographicCamera cameraHandler = new CameraHandler(.1f,50f);
-        renderHandler.setup(
-                cameraHandler,
-                new ExtendViewport(WORLD_WIDTH/8, WORLD_HEIGHT/8, cameraHandler),
-                maxAspectDeviation
-        );
+        setupViewportAndCamera(.1f,50f,WORLD_WIDTH/2,WORLD_HEIGHT/2,maxAspectDeviation);
 
         fileHandler = new FileHandler("save.sav",false);
-        gameData = fileHandler.load();
+        gameData = fileHandler.loadGameData();
 
     }
 
@@ -53,6 +48,7 @@ public class GameLauncher extends Engine {
     protected void loadAssets() {
         assetHandler.addToQueue(Texture.class, "sprBadlogic", "badlogic.jpg");
         assetHandler.addToQueue(Texture.class, "sprExample", "example.jpg");
+
         assetHandler.addToQueue(Music.class, "musExample","example.ogg");
         assetHandler.addToQueue(Sound.class, "sndExample","test.wav");
         super.loadAssets();

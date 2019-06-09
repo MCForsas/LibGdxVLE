@@ -1,0 +1,9 @@
+*Remove add example level in start level in Engine class
+*Add game launcher instead of engine in game config
++switch to portrait mode
++Fix gameObject end loop, so it loops backwards.
++remove current viewpoert and current camera methods from render handler
++Add touch dragged
+#remember: set size and then orgin of center
+Fix objects not starting when added from starting other object
+add flush on dispose and end

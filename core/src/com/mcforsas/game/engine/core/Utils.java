@@ -97,10 +97,6 @@ public final class Utils {
     }
     //endregion
 
-    public static boolean flipBoolean(boolean bool){
-        return !bool;
-    }
-
     /**
      * returns number between 0 and 1, which is eased in.
      * @param progress

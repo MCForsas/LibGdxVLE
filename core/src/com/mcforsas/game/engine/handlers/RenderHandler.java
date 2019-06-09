@@ -4,14 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mcforsas.game.GameLauncher;
-import com.mcforsas.game.engine.core.Engine;
 import com.mcforsas.game.engine.core.Level;
 import com.mcforsas.game.engine.core.Renderable;
 import com.mcforsas.game.engine.core.Utils;
-import com.mcforsas.game.engine.exceptions.IncompatibleViewportException;
 
 import java.util.*;
 
@@ -20,83 +18,50 @@ import java.util.*;
  * Renders all the added entities
  */
 public class RenderHandler {
-    private Vector<Camera> cameras = new Vector<Camera>();
-    private Camera currentCamera;
-
-    private Vector<Viewport> viewports = new Vector<Viewport>();
-    private Viewport currentViewport;
+    private Camera camera;
+    private Viewport viewport;
 
     private Vector<Renderable> renderables = new Vector<Renderable>();//All rendered items
+
+    private ShaderProgram shader; //A global shader applied to the whole screen
 
     //Camera positions
     private float xTo = 0, yTo = 0;
     public static final float CAMERA_Z = 0;
     private boolean isCameraBounded = true; //Weather camera is allowed to leave the level
 
-    //Maximum allowed deviation from regular aspect ratio
-    private float maxAspectDeviation = 0;
-
-    //Defaults
-    private static final float DINAMIC_CAMERA_MOVESPEED = 1f;
-    private static final float DINAMIC_CAMERA_MAXRADIUS = 10f;
-
     public void setup(Camera camera, Viewport viewport){
-        addCemera(camera);
-        setCurrentCamera(camera);
-
-        addViewport(viewport);
-        setCurrentViewport(viewport);
+        setCamera(camera);
+        setViewport(viewport);
     }
-
-    /**
-     * Setup default renderer defaults: Ortographic camera, ExtendViewPort and position camera in
-     * the center
-     */
-    public void setupDefault(){
-        setup(
-                new CameraHandler(DINAMIC_CAMERA_MOVESPEED, DINAMIC_CAMERA_MAXRADIUS),
-                new ExtendViewport(
-                        GameLauncher.getWorldWidth(), GameLauncher.getWorldHeight(),
-                        currentCamera)
-        );
-        addViewport(currentViewport);
-
-    }
-
-    public void setup(Camera camera, ExtendViewport viewport, float maxAspectDeviation){
-        setup(camera, viewport);
-        setMaxAspectDeviation(maxAspectDeviation);
-
-        setViewportMaxDimensions(
-                currentViewport.getWorldWidth() * (1 + maxAspectDeviation),
-                currentViewport.getWorldHeight() * (1 + maxAspectDeviation)
-        );
-    }
-
-
 
     public void render(SpriteBatch sb, float deltaTime) {
         Gdx.gl.glClearColor(0, .06f, .02f, 1); //Set background color
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (currentCamera instanceof CameraHandler) {
-            ((CameraHandler) currentCamera).updatePosition(xTo, yTo, deltaTime);
+        //Move camera if it's a CameraHandler instance
+        if (camera instanceof CameraHandler) {
+            ((CameraHandler) camera).updatePosition(xTo, yTo, deltaTime);
         }else{
-            currentCamera.position.set(xTo, yTo, CAMERA_Z);
+            //Otherwise set it's position
+            camera.position.set(xTo, yTo, CAMERA_Z);
         }
 
         if (isCameraBounded){
-            boundCamera(currentCamera);
+            boundCamera(camera);
         }
-        currentCamera.update();
-        currentViewport.apply();
 
-        sb.setProjectionMatrix(currentCamera.combined);
+        camera.update();
+        viewport.apply();
 
+        sb.setProjectionMatrix(camera.combined);
+
+        sb.setShader(shader);
         sb.begin();
         for(int i = 0; i < renderables.size(); i++){
             renderables.get(i).render(sb, deltaTime);
         }
+        sb.setShader(null);
         sb.end();
     }
 
@@ -125,8 +90,9 @@ public class RenderHandler {
     }
 
     public void resize(int width, int height){
-        currentViewport.update(width, height);
+        viewport.update(width, height);
     }
+
     //region <Camera>
 
     private void boundCamera(Camera camera){
@@ -155,27 +121,10 @@ public class RenderHandler {
             );
 
             //To avoid shaky screen position camera in the center if viewport dimensions are bigger than worlds.
-            if(currentViewport.getWorldWidth() >= worldWidth || currentViewport.getWorldHeight() >= worldHeight){
+            if(viewport.getWorldWidth() >= worldWidth || viewport.getWorldHeight() >= worldHeight){
                 camera.position.x = worldWidth/2;
                 camera.position.y = worldHeight/2;
             }
-    }
-    //endregion
-
-    public Camera getCamera() {
-        return currentCamera;
-    }
-
-    public void setCamera(Camera currentCamera) {
-        this.currentCamera = currentCamera;
-    }
-
-    public void addCemera(Camera camera){
-        cameras.add(camera);
-    }
-
-    public void removeCamera(Camera camera) {
-        cameras.remove(camera);
     }
 
     public void setCameraPosition(float x, float y){
@@ -188,38 +137,6 @@ public class RenderHandler {
         yTo += deltaY;
     }
 
-    //region <Viewport>
-    public void addViewport(Viewport viewport){
-        viewports.add(viewport);
-    }
-
-    public void removeViewport(Viewport viewport){
-        viewports.remove(viewport);
-    }
-
-    /**
-     * Max dimensions before viewport starts letterboxing
-     * @param viewport to apply to
-     * @param width size in px
-     * @param height size in px
-     */
-    private void setViewportMaxDimensions(Viewport viewport, float width, float height) throws IncompatibleViewportException{
-        if(viewport.getClass() == ExtendViewport.class){
-            ((ExtendViewport) viewport).setMaxWorldWidth(width);
-            ((ExtendViewport) viewport).setMaxWorldHeight(height);
-        }else{
-            throw new IncompatibleViewportException("Tried to set max world dimension's for viewport which is not an ExtendViewport");
-        }
-    }
-
-    public void setViewportMaxDimensions(float width, float height) {
-        try {
-            setViewportMaxDimensions(currentViewport, width, height);
-        }catch (IncompatibleViewportException e){
-            e.printStackTrace();
-        }
-
-    }
     //endregion
 
     //region <Getters and setters>
@@ -240,28 +157,20 @@ public class RenderHandler {
         isCameraBounded = cameraBounded;
     }
 
-    public Viewport getCurrentViewport() {
-        return currentViewport;
+    public Viewport getViewport() {
+        return viewport;
     }
 
-    public void setCurrentViewport(Viewport viewport) {
-        this.currentViewport = viewport;
+    public void setViewport(Viewport viewport) {
+        this.viewport = viewport;
     }
 
-    public Camera getCurrentCamera() {
-        return currentCamera;
+    public Camera getCamera() {
+        return camera;
     }
 
-    public void setCurrentCamera(Camera currentCamera) {
-        this.currentCamera = currentCamera;
-    }
-
-    public float getMaxAspectDeviation() {
-        return maxAspectDeviation;
-    }
-
-    public void setMaxAspectDeviation(float maxAspectDeviation) {
-        this.maxAspectDeviation = maxAspectDeviation;
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     //endregion

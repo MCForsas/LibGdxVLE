@@ -64,4 +64,9 @@ public abstract class Entitie implements InputListener {
     public void mouseMoved(float x, float y) {
 
     }
+
+    @Override
+    public void touchDragged(float x, float y) {
+
+    }
 }

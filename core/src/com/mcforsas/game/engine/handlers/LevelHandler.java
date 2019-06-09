@@ -1,11 +1,9 @@
 package com.mcforsas.game.engine.handlers;
 
 import com.mcforsas.game.GameLauncher;
-import com.mcforsas.game.engine.core.Engine;
-import com.mcforsas.game.engine.core.GameData;
-import com.mcforsas.game.engine.core.Level;
-import com.mcforsas.game.engine.core.Renderable;
+import com.mcforsas.game.engine.core.*;
 
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Vector;
 
@@ -18,6 +16,8 @@ public class LevelHandler extends Renderable {
     private Level currentLevel;
     private boolean paused = false;
 
+    private final boolean REPORT_LEVEL_IS_NULL = false;
+
     //region <Level methods>
     public void startLevel() {
         startLevel(currentLevel);
@@ -27,7 +27,8 @@ public class LevelHandler extends Renderable {
         try {
             level.start();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
@@ -37,7 +38,8 @@ public class LevelHandler extends Renderable {
             if (!paused && level.isStarted())
                 level.update(deltaTime);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
@@ -49,7 +51,8 @@ public class LevelHandler extends Renderable {
         try {
             level.end();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
@@ -70,10 +73,16 @@ public class LevelHandler extends Renderable {
         try {
             level.dispose();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            if(REPORT_LEVEL_IS_NULL)
+                e.printStackTrace();
         }
     }
 
+    /**
+     * Loops trough all levels calling save method
+     * @param fileHandler
+     * @param gameData
+     */
     public void save(FileHandler fileHandler, GameData gameData){
         for(int i = 0; i < levels.size(); i++){
             levels.get(i).save(fileHandler, gameData);
@@ -143,8 +152,8 @@ public class LevelHandler extends Renderable {
     }
 
     public void setCurrentLevel(Level level) throws NullPointerException{
+        endLevel();
         this.currentLevel = level;
-
         if(level == null)
             throw new NullPointerException();
         if(!level.isStarted()){

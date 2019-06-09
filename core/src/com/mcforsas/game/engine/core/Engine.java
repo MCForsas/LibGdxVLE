@@ -2,7 +2,9 @@ package com.mcforsas.game.engine.core;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.mcforsas.game.engine.handlers.*;
 
 import java.util.NoSuchElementException;
@@ -91,8 +93,18 @@ public class Engine extends ApplicationAdapter {
 	}
 
 	/**
+	 * Calls save event for all levels in the level handler. Upon call they should pass all the save data to file handler
+	 * and gameData
+	 */
+	public void save(){
+		levelHandler.save(fileHandler,gameData);
+		fileHandler.savePreferences();
+	}
+
+	/**
 	 * After all the assets are loaded and main object created, start the game - setup default.
 	 */
+
 	protected void startGame(){
 		try {
 			levelHandler.startFirstLevel();
@@ -104,6 +116,29 @@ public class Engine extends ApplicationAdapter {
 	protected void loadAssets(){
 		assetHandler.startLoadingQueue();
 		startGame();
+	}
+
+
+	/**
+	 * Sets up and orthographic camera with speed values and a viewport with world dimensions
+	 * @param cameraMoveSpeed see {@link CameraHandler}
+	 * @param cameraMaxRadius {@link CameraHandler}
+	 * @param worldWidth game world width in units
+	 * @param worldHeigth game world height in units
+	 * @param maxAspectDeviation max deviation from normal frame size, till viewport starts letterboxing
+	 */
+	protected void setupViewportAndCamera(float cameraMoveSpeed, float cameraMaxRadius, float worldWidth, float worldHeigth, float maxAspectDeviation){
+		OrthographicCamera cameraHandler = new CameraHandler(cameraMoveSpeed, cameraMaxRadius);
+		renderHandler.setup(
+				cameraHandler,
+				new ExtendViewport(
+					worldWidth,
+					worldHeigth,
+					worldWidth * (1f +  maxAspectDeviation),
+					worldHeigth * (1f + maxAspectDeviation),
+						cameraHandler
+				)
+		);
 	}
 
 	//region <Getters>
